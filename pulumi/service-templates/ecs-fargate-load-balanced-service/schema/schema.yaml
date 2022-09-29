@@ -1,0 +1,30 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  service_input_type: "PulumiDemoServiceInput"
+  types:
+    PulumiDemoServiceInput:
+      type: object
+      description: "Input properties for a load balanced Fargate service launched via Pulumi"
+      properties:
+        containerPort:
+          title: "Container Port"
+          type: number
+          description: "The port to route traffic to"
+          default: 80
+          minimum: 0
+          maximum: 65535
+        desiredCount:
+          title: "Desired count of running tasks"
+          type: number
+          description: "How many containers to run for this Fargate service"
+          default: 1
+          minimum: 0
+          maximum: 10
+        container_image_uri:
+          title: "Container Image URI"
+          type: string
+          description: "The name/url of the container image"
+          default: "public.ecr.aws/nginx/nginx:stable"
+          minLength: 1
+          maxLength: 200

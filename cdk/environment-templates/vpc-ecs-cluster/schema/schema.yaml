@@ -1,0 +1,30 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  environment_input_type: "VpcEcsClusterEnv"
+  types:
+    VpcEcsClusterEnv:
+      type: object
+      description: "Input properties for my environment"
+      properties:
+        ec2_capacity:
+          type: boolean 
+          description: "Enable EC2 capacity for the cluster"
+          default: false
+        ec2_instance_type:
+          type: string
+          description: "If EC2 capacity enabled, instance type to be used"
+          default: "t3.medium"
+        allow_ecs_exec:
+          type: boolean
+          description: "Enable ECS Exec on the cluster"
+          default: false
+        enhanced_cluster_monitoring:
+          type: boolean
+          default: false
+          description: "Enable Cloudwatch Container Insights for the cluster"
+        service_discovery_namespace:
+          type: string
+          description: "Service discovery domain"
+      required:
+        - service_discovery_namespace

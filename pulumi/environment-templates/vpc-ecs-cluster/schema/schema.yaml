@@ -1,0 +1,14 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  environment_input_type: "VpcEcsClusterEnv"
+  types:
+    VpcEcsClusterEnv:
+      type: object
+      description: "Input properties for my environment"
+      properties:
+        enhanced_cluster_monitoring:
+          title: "Enable enhanced cluster monitoring via Container Insights"
+          type: boolean
+          default: false
+          description: "Enable Cloudwatch Container Insights for the cluster"

@@ -1,0 +1,27 @@
+{
+  "environment": {
+    "account_id": "696393176379",
+    "name": "environment-pulumi-cb-demo-1",
+    "outputs": {
+      "publicSubnetIds": "[\"subnet-0f013308e69b083ea\",\"subnet-0d3d53f1639d48659\"]",
+      "ecsClusterId": "arn:aws:ecs:us-east-1:696393176379:cluster/pulumi-example-5-10cad46",
+      "ecsClusterName": "pulumi-example-5-10cad46",
+      "vpcId": "vpc-0bb1f48265f448d11",
+      "privateSubnetIds": "[\"subnet-0c69b7af3150d1af7\",\"subnet-04a81ed754720cb5e\"]"
+    }
+  },
+  "service": {
+    "name": "pulumi-service-demo",
+    "repository_connection_arn": "",
+    "repository_id": "",
+    "branch_name": ""
+  },
+  "service_instance": {
+    "name": "pulumi-dev",
+    "inputs": {
+      "containerPort": 80,
+      "desiredCount": 1,
+      "container_image_uri": "public.ecr.aws/nginx/nginx:stable"
+    }
+  }
+}
