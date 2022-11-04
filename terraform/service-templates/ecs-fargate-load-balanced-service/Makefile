@@ -14,7 +14,7 @@ help: Makefile
 ## template: create a service template and register a version, ex. `make template bucket=my-bucket version=1`
 .PHONY: template 
 template:
-	aws proton-shell create-service-template \
+	aws proton create-service-template \
 		--name ${template} \
 		--display-name "Load Balanced ECS Fargate Service" \
 		--description "Load Balanced ECS Fargate Service" \
@@ -24,14 +24,14 @@ template:
 	aws s3 cp ${key} s3://${bucket}/${key}
 	rm ${key}
 
-	aws proton-shell create-service-template-version \
+	aws proton create-service-template-version \
 		--template-name ${template} \
 		--description "registered from CLI" \
 		--compatible-environment-templates="majorVersion=1,templateName=vpc-ecs-cluster" \
 		--source s3="{bucket=${bucket},key=${key}}"
 
-	aws proton-shell wait service-template-version-registered \
+	aws proton wait service-template-version-registered \
 		--template-name ${template} --major-version ${version} --minor-version 0
 
-	aws proton-shell update-service-template-version \
+	aws proton update-service-template-version \
 		--template-name ${template} --major-version ${version} --minor-version 0 --status PUBLISHED

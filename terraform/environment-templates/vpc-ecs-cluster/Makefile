@@ -14,7 +14,7 @@ help: Makefile
 ## template: create an environment template and register a version, ex. `make template bucket=my-bucket version=1`
 .PHONY: template 
 template:
-	aws proton-shell create-environment-template \
+	aws proton create-environment-template \
 		--name ${template} \
 		--display-name "Environment for ECS Fargate" \
 		--description "Environment for provisioning ECS Fargate services"
@@ -23,13 +23,13 @@ template:
 	aws s3 cp ${key} s3://${bucket}/${key}
 	rm ${key}
 
-	aws proton-shell create-environment-template-version \
+	aws proton create-environment-template-version \
 		--template-name ${template} \
 		--description "registered from CLI" \
 		--source s3="{bucket=${bucket},key=${key}}"
 
-	aws proton-shell wait environment-template-version-registered \
+	aws proton wait environment-template-version-registered \
 		--template-name ${template} --major-version ${version} --minor-version 0
 
-	aws proton-shell update-environment-template-version \
+	aws proton update-environment-template-version \
 		--template-name ${template} --major-version ${version} --minor-version 0 --status PUBLISHED
