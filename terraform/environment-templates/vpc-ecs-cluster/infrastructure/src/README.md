@@ -1,0 +1,1 @@
+This is a standard Terraform module that can be used and tested outside of AWS Proton.
