@@ -6,7 +6,7 @@ This template bundle will deploy the following:
 
 - A VPC
 - An ECS Cluster with optional configuration inputs (EC2 capacity, Container Insights, ECS Exec logging)
-- Works with the (vpc-ecs-cluster)[../../../service-templates/vpc-ecs-cluster] environment template.
+- Works with the [vpc-ecs-cluster](../../../service-templates/vpc-ecs-cluster) environment template.
 
 ### Testing
 
