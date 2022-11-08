@@ -2,10 +2,7 @@ import { Stack, StackProps, CfnOutput } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { EcsAlbStack } from "./load-balancer";
 import * as ecs from "aws-cdk-lib/aws-ecs";
-import * as ecr from "aws-cdk-lib/aws-ecs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as autoscaling from "aws-cdk-lib/aws-autoscaling";
-import * as iam from "aws-cdk-lib/aws-iam";
 import input from "../proton-inputs.json";
 
 export interface EcsFargateServiceStackProps extends StackProps {
@@ -105,7 +102,7 @@ export class EcsFargateServiceStack extends Stack {
     if (instanceInputs.inputs.load_balanced) {
       const alb = new EcsAlbStack(this, "LB", {
         containerPort: instanceInputs.inputs.port,
-        listenerPort: 80, // todo: add tls option to enable acm with domain input
+        listenerPort: 80,
         public: instanceInputs.inputs.load_balanced_public,
         vpc: importedVpc,
         stackName: stackName,
