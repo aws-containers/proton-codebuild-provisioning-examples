@@ -7,7 +7,7 @@ This template bundle will build deploy the following:
 - ECS task definition with Fargate as the compute
 - ECS service with desired task count and compute requirements defined in the schema
 - (Optional) Application Load Balancer that is attached to the ECS service
-- Works with the (vpc-ecs-cluster)[../../../environment-templates/vpc-ecs-cluster] environment template.
+- Works with the [vpc-ecs-cluster](../../../environment-templates/vpc-ecs-cluster) environment template.
 
 ### Testing
 
