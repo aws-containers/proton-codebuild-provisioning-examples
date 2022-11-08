@@ -6,20 +6,16 @@ import * as autoscaling from "aws-cdk-lib/aws-autoscaling";
 import * as iam from "aws-cdk-lib/aws-iam";
 import input from "../proton-inputs.json";
 
-export interface VpcEcsClusterStackProps extends StackProps {
-  stackName: string | undefined;
-}
-
 export class VpcEcsClusterStack extends Stack {
-  constructor(scope: Construct, id: string, props: VpcEcsClusterStackProps) {
+  constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
     const environmentInputs = input.environment.inputs;
     const stackName = props.stackName ?? input.environment.name;
 
-    // TODO: Make CIDR as optional input
     const vpc = new ec2.Vpc(this, "ProtonVPC", {
-      vpcName: `vpc-${stackName}`,
+      vpcName: stackName,
+      cidr: environmentInputs.vpc_cidr_block,
     });
 
     let clusterInputs: any = {

@@ -1,0 +1,9 @@
+{
+  "cdk-env-demo": {
+    "ECSClusterArn": "arn:aws:ecs:us-east-1:696393176379:cluster/cdk-env-demo",
+    "ECSClusterSecGrps": "[]",
+    "VPCId": "vpc-0a606e333216d32f4",
+    "ECSClusterName": "cdk-env-demo",
+    "ECSClusterSDNamespace": "proton.cdkdemo.svc"
+  }
+}

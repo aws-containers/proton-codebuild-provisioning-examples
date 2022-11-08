@@ -15,4 +15,3 @@ infrastructure:
         deprovision:
           - npm install
           - ./node_modules/aws-cdk/bin/cdk destroy --force
-          - cdk destroy --force

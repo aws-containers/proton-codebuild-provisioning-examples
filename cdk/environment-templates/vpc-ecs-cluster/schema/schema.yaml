@@ -1,30 +1,40 @@
 schema:
   format:
     openapi: "3.0.0"
-  environment_input_type: "VpcEcsClusterEnv"
+  environment_input_type: "EnvironmentInputs"
   types:
-    VpcEcsClusterEnv:
+    EnvironmentInputs:
       type: object
       description: "Input properties for my environment"
       properties:
+        vpc_cidr_block:
+          type: string
+          title: "VPC CIDR block"
+          description: "VPC CIDR block, or default if left blank"
+          default: "10.0.0.0/16"
         ec2_capacity:
-          type: boolean 
+          type: boolean
+          title: "Enable EC2 Capacity"
           description: "Enable EC2 capacity for the cluster"
           default: false
         ec2_instance_type:
           type: string
+          title: "EC2 instance types for cluster (if enabled)"
           description: "If EC2 capacity enabled, instance type to be used"
           default: "t3.medium"
         allow_ecs_exec:
           type: boolean
+          title: "Enable ECS Execute command logging for the cluster"
           description: "Enable ECS Exec on the cluster"
           default: false
         enhanced_cluster_monitoring:
           type: boolean
+          title: "Enable Container Insights for this cluster"
           default: false
           description: "Enable Cloudwatch Container Insights for the cluster"
         service_discovery_namespace:
           type: string
+          title: "Service discovery namespace domain"
           description: "Service discovery domain"
       required:
         - service_discovery_namespace
