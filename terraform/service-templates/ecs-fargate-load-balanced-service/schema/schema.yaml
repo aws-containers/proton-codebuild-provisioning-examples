@@ -11,14 +11,14 @@ schema:
           type: number
           title: "Container Port"
           description: "The port the container listens on"
-          default: 80
+          default: 8080
           minimum: 0
           maximum: 65535
         health_check_path:
           title: Health Check Path
           description: The health check path
           type: string
-          default: /
+          default: /health
         desired_count:
           type: number
           title: "Desired Task Count"
@@ -40,7 +40,7 @@ schema:
         image:
           type: string
           title: "Container Image"
-          description: "The name/url of the container image"
-          default: "public.ecr.aws/z9d2n7e1/nginx:1.21.1"
+          description: "The container image to deploy"
+          default: "public.ecr.aws/aws-containers/proton-demo-image:1e5ca1d"
           minLength: 1
           maxLength: 200
