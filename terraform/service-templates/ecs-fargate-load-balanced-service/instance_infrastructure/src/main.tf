@@ -149,7 +149,7 @@ resource "aws_ecs_task_definition" "main" {
           "name": "HEALTHCHECK",
           "value": "${var.health_check_path}"
         }
-      ]
+      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
