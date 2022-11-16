@@ -11,7 +11,7 @@ const stackName = input.service.name;
 
 const app = new App();
 
-new EcsFargateServiceStack(app, "proton", {
+new EcsFargateServiceStack(app, "ProtonSvc", {
   env: protonEnv,
   stackName: stackName,
 });

@@ -6,12 +6,16 @@ infrastructure:
         runtimes:
           nodejs: 16
         provision:
-          - echo "PROTON INPUTS == $(cat proton-inputs.json)"
+          # Run when create/update is triggered for environment or service
+          # Install dependencies
           - npm install
-          - ./node_modules/aws-cdk/bin/cdk deploy --require-approval never
+          - cdk deploy --require-approval never
+          # Script to convert CFN outputs into outputs for Proton
           - chmod +x ./cdk-to-proton.sh
           - cat proton-outputs.json | ./cdk-to-proton.sh > outputs.json
+          # Notify AWS Proton of deployment status
           - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status IN_PROGRESS --outputs file://./outputs.json
         deprovision:
+          # Install dependencies and destroy resources
           - npm install
-          - ./node_modules/aws-cdk/bin/cdk destroy --force
+          - cdk destroy --force
