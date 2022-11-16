@@ -2,7 +2,7 @@
 
 ### What this builds
 
-This template bundle will build deploy the following:
+This template bundle will deploy the following:
 
 - ECS task definition with Fargate as the compute
 - ECS service with desired task count and compute requirements defined in the schema

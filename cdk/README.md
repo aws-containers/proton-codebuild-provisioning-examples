@@ -4,13 +4,15 @@ This directory is home to sample AWS CDK templates to gain an understanding of h
 
 ### Requirements
 
+Install the AWS CDK CLI
+
+```
+npm i aws-cdk
+```
+
 #### Bootstrap
 
 Prior to launching CDK Stacks, a [bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_bootstrap) needs to occur for your AWS account and region.
-
-#### Stack Name
-
-Proton provides an environment variable with the key `STACK_NAME`, it's recommended that you leverage this as the `stackName` property in your cdk implementation. This will provide easy traceability to connect which stacks go with which environment and/or service in Proton.
 
 #### Manifest
 

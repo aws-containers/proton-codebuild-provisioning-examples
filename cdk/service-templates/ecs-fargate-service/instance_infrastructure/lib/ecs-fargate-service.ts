@@ -5,16 +5,8 @@ import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import input from "../proton-inputs.json";
 
-export interface EcsFargateServiceStackProps extends StackProps {
-  stackName: string | undefined;
-}
-
 export class EcsFargateServiceStack extends Stack {
-  constructor(
-    scope: Construct,
-    id: string,
-    props: EcsFargateServiceStackProps
-  ) {
+  constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
     const environmentOutputs = input.environment;
