@@ -9,7 +9,7 @@ infrastructure:
           # Run when create/update is triggered for environment or service
           # Install dependencies
           - npm install
-          - cdk deploy --require-approval never
+          - npm run cdk deploy --require-approval never
           # Script to convert CFN outputs into outputs for Proton
           - chmod +x ./cdk-to-proton.sh
           - cat proton-outputs.json | ./cdk-to-proton.sh > outputs.json
@@ -18,4 +18,4 @@ infrastructure:
         deprovision:
           # Install dependencies and destroy resources
           - npm install
-          - cdk destroy --force
+          - npm run cdk destroy --force
