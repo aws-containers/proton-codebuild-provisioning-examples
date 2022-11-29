@@ -10,7 +10,7 @@ You can bring your own S3 bucket, or create one using Terraform by running the `
 
 ```sh
 cd terraform/bootstrap
-make bootstrap
+terraform init && terraform apply
 ```
 
 Then take the bucket name and add it in the template [manifest.yaml](./environment-templates/vpc-ecs-cluster/infrastructure/manifest.yaml) files.  You can also specify the Terraform version and AWS region you'd like to use.
