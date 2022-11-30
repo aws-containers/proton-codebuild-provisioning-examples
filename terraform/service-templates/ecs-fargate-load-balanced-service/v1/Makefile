@@ -12,7 +12,7 @@ help: Makefile
 	@echo
 
 ## template: create a service template and register a version, ex. `make template bucket=my-bucket version=1`
-.PHONY: template 
+.PHONY: template
 template:
 	aws proton create-service-template \
 		--name ${template} \

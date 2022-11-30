@@ -12,7 +12,7 @@ help: Makefile
 	@echo
 
 ## template: create an environment template and register a version, ex. `make template bucket=my-bucket version=1`
-.PHONY: template 
+.PHONY: template
 template:
 	aws proton create-environment-template \
 		--name ${template} \

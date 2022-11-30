@@ -1,14 +1,16 @@
 # required by proton
 
 variable "environment" {
+  description = "proton environment"
   type = object({
     name       = string
     account_id = string
-    outputs = map(string)
+    outputs    = map(string)
   })
 }
 
 variable "service" {
+  description = "proton service"
   type = object({
     name                      = string
     repository_id             = string
@@ -18,6 +20,7 @@ variable "service" {
 }
 
 variable "service_instance" {
+  description = "proton service instance"
   type = object({
     name   = string
     inputs = map(string)
