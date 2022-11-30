@@ -43,18 +43,9 @@ variable "container_port" {
   type        = number
 }
 
-variable "task_sizes" {
-  default = {
-    x-small = { cpu = 256, memory = 512 }
-    small   = { cpu = 512, memory = 1024 }
-    medium  = { cpu = 1024, memory = 2048 }
-    large   = { cpu = 2048, memory = 4096 }
-    x-large = { cpu = 4096, memory = 8192 }
-  }
-}
-
 variable "task_size_cpu" {
-  type = map(string)
+  description = "map of task size to cpu mappings"
+  type        = map(string)
   default = {
     "x-small" = "256"
     "small"   = "512"
@@ -65,7 +56,8 @@ variable "task_size_cpu" {
 }
 
 variable "task_size_memory" {
-  type = map(string)
+  description = "map of task size to memory mappings"
+  type        = map(string)
   default = {
     "x-small" = "512"
     "small"   = "1024"

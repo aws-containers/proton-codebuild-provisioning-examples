@@ -22,7 +22,7 @@ provider "aws" {
   }
 }
 
-module "load-balanced-fargate-svc" {
+module "load_balanced_fargate_svc" {
   source = "./src"
 
   # name based on proton input
