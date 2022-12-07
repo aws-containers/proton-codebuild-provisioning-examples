@@ -31,7 +31,7 @@ infrastructure:
           - chmod +x ./output.sh && ./output.sh
 
         deprovision:
-        
+
           # install terraform cli
           - echo "Installing Terraform CLI ${TF_VERSION}"
           - chmod +x ./install-terraform.sh && ./install-terraform.sh ${TF_VERSION}
