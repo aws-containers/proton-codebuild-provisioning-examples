@@ -8,10 +8,10 @@ infrastructure:
         provision:
           - echo "PROTON INPUTS == $(cat proton-inputs.json)"
           - npm install
-          - npm run cdk deploy --all
+          - npm run cdk deploy "*"
           - chmod +x ./cdk-to-proton.sh
           - cat proton-outputs.json | ./cdk-to-proton.sh > outputs.json
           - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status IN_PROGRESS --outputs file://./outputs.json
         deprovision:
           - npm install
-          - npm run cdk destroy --force
+          - npm run cdk destroy --force "*"

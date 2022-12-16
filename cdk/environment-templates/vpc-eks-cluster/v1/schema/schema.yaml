@@ -6,9 +6,6 @@ schema:
     EnvironmentInputs:
       type: object
       description: "Input properties for eks environment."
-      required:
-        - user
-        - kubernetes_version
       properties:
         cluster_name:
           title: "Cluster name"
