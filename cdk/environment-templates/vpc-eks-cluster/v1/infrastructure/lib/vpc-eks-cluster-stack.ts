@@ -56,7 +56,6 @@ export default class ClusterConstruct extends cdk.Stack {
       const iamRole = new Role(this, `NSRole${ns}`, {
         assumedBy: new cdk.aws_iam.AccountPrincipal(cdk.Stack.of(this).account),
       });
-      console.log(ns);
       teams.push(new DevTeam(ns, iamRole.roleArn));
     }
 
