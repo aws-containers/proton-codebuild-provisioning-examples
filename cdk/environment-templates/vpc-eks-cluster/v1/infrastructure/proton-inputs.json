@@ -1,0 +1,20 @@
+{
+  "environment": {
+    "name": "cdk-eks-demo",
+    "inputs": {
+      "argoCd": false,
+      "opaGateKeeper": false,
+      "kubeCost": false,
+      "nginxIngress": false,
+      "metricsServer": false,
+      "karpenter": true,
+      "lbController": false,
+      "fluentBit": false,
+      "certManager": true,
+      "k8Version": "1.23",
+      "vpcCidr": "10.0.0.0/16",
+      "clusterName": "cdk-eks-demo",
+      "namespaces": ["devteam"]
+    }
+  }
+}

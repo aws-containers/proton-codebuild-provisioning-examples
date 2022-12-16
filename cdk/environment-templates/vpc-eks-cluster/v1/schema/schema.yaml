@@ -1,0 +1,66 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  environment_input_type: "EnvironmentInputs"
+  types:
+    EnvironmentInputs:
+      type: object
+      description: "Input properties for eks environment."
+      required:
+        - user
+        - kubernetes_version
+      properties:
+        cluster_name:
+          title: "Cluster name"
+          description: "Cluster name or defaults to environment name"
+          type: string
+        vpc_cidr:
+          title: "VPC CIDR"
+          type: string
+          pattern: ([0-9]{1,3}\.){3}[0-9]{1,3}($|/(16|24))
+          default: 10.0.0.0/16
+        vpc_id:
+          title: "Deploy to an existing VPC"
+          type: string
+        kubernetes_version:
+          title: "Kubernetes version"
+          type: string
+          enum: ["1.21", "1.22", "1.23"]
+          default: "1.23"
+        opaGatekeeper:
+          title: "Enable OPA GateKeeper Add-On"
+          type: boolean
+          default: false
+        aws_for_fluentbit:
+          title: "Enable AWS for FluentBit Add-On"
+          type: boolean
+          default: false
+        cert_manager:
+          title: "Enable Cert Manager Add-On"
+          type: boolean
+          default: false
+        karpenter:
+          title: "Enable Karpenter Add-On"
+          type: boolean
+          default: false
+        lbController:
+          title: "Enable AWS Load Balancer Add-On"
+          type: boolean
+          default: false
+        metricsServer:
+          title: "Enable Metrics Server Add-On"
+          type: boolean
+          default: false
+        kubeCost:
+          title: "Enable Kubecost Add-On"
+          type: boolean
+          default: false
+        namespaces:
+          title: "Namespaces to create in cluster"
+          description: Namespaces to create on the cluster
+          type: array
+          example:
+            - namespace1
+            - namespace2
+          items:
+            type: string
