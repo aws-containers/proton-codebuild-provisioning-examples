@@ -1,0 +1,25 @@
+{
+  "environment": {
+    "account_id": "12345678910",
+    "name": "cdk-env-demo",
+    "outputs": {
+      "ECSClusterArn": "arn:aws:ecs:us-east-1:12345678910:cluster/environment-cdk-env-demo",
+      "ECSClusterSecGrps": "[]",
+      "VPCId": "vpc-06dda7e98a726aff5",
+      "ECSClusterName": "environment-cdk-env-demo",
+      "ECSClusterSDNamespace": "cdkenvdemo.svc"
+    }
+  },
+  "service": {
+    "name": "cdk-svc-demo",
+    "repository_connection_arn": "",
+    "repository_id": "",
+    "branch_name": ""
+  },
+  "service_instance": {
+    "name": "test",
+    "inputs": {
+      "namespaceName": "namespacedemo"
+    }
+  }
+}

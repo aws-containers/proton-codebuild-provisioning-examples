@@ -1,0 +1,13 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  service_input_type: "NamespaceVending"
+  types:
+    NamespaceVending:
+      type: object
+      description: "Input properties for a loadbalanced Fargate service"
+      properties:
+        namespace:
+          title: "Namespace name"
+          type: string
+          description: "Name of the namespace to create in the EKS cluster"
