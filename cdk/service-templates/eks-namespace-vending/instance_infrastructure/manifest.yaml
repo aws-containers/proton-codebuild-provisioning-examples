@@ -1,0 +1,18 @@
+infrastructure:
+  templates:
+    - rendering_engine: codebuild
+      settings:
+        image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
+        runtimes:
+          nodejs: 16
+        provision:
+          # Get namespace name
+          - NS_NAME=$(cat proton-inputs.json | jq -r '.service_instance.inputs.namespaceName')
+          # Run create namespace script
+          - ./create_ns.py $NS_NAME
+          # Notify AWS Proton of deployment status
+          - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status IN_PROGRESS --outputs file://./outputs.json
+        deprovision:
+          # Install dependencies and destroy resources
+          - npm install
+          - cdk destroy --force
