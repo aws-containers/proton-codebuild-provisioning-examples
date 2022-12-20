@@ -4,7 +4,12 @@ import boto3
 import yaml
 import typer
 
+app = typer.Typer()
 client = boto3.client('proton')
+
+@app.command()
+def create_namespace(name: str):
+    print(f"{name}")
 
 envName = 'cdk-eks-demo-test'
 namespaceServiceInput = "backend-api"
