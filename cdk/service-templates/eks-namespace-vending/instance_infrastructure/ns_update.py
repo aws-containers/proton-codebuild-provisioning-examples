@@ -50,10 +50,26 @@ def update_proton_environment(environment, env_name, spec):
 
         print("Deployment complete!")
 
+def create_proton_outputs_file(nsName):
+    kubectlCommand = "aws eks update-kubeconfig --name cluster-name-here --region region-here --role-arn role-arn-here"
+    toWrite = f'''[
+  {{
+    "key": "NamespaceName",
+    "valueString": "{nsName}"
+  }},
+  {{
+    "key": "KubectlConfiguration",
+    "valueString": "{kubectlCommand}"
+  }}
+]'''
+    # Write to proton-outputs.json file
+    with open("proton-outputs.json.test", "w") as outfile:
+      outfile.write(toWrite)
+
 @app.command()
 def create_namespace(
     namespace_name: str = typer.Argument(..., help="Kubernetes namespace name"), 
-    environment_name: str = typer.Argument(..., help="Environment to deploy namespace on")):
+    environment_name: str = typer.Argument(..., help="Environment to deploy namespace")):
     """
     Create a namespace on the EKS environment managed via AWS Proton
     """
@@ -63,6 +79,7 @@ def create_namespace(
     updated_spec = prepare_spec(ns, spec)
     print(f"Deploying \"{namespace_name}\" namespace to environment \"{environment_name}\"")
     update_proton_environment(environment, environment_name, updated_spec)
+    create_proton_outputs_file(ns)
 
 @app.command()
 def delete_namespace(namespace_name: str = typer.Argument(..., help="Kubernetes namespace name")):
