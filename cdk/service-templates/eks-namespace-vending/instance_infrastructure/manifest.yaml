@@ -4,18 +4,23 @@ infrastructure:
       settings:
         image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
         runtimes:
-          nodejs: 16
+          python: 3.9
         provision:
+          - cat proton-inputs.json
+          # Install dependencies
+          - pip install -r requirements.txt
           # Get environment name
           - ENV_NAME=$(cat proton-inputs.json | jq -r '.environment.name')
           # Get namespace name
           - NS_NAME=$(cat proton-inputs.json | jq -r '.service_instance.inputs.namespace')
           # Run create namespace script
-          - ./ns_update.py $NS_NAME $ENV_NAME
-          # Notify AWS Proton of deployment status
-          - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status IN_PROGRESS --outputs file://./outputs.json
+          - chmod +x ./ns_update.py && ./ns_update.py create-namespace $NS_NAME $ENV_NAME
         deprovision:
-          # WIP
-          # Due to CFN export issues between stacks in cdk eks bp, we need to first deploy secondary stack, then we can deploy all
-          # Need a way to determine previous outputs vs current and if less namespaces, do this
-          - echo "Work in progress"
+          # Install dependencies
+          - pip install -r requirements.txt
+          # Get environment name
+          - ENV_NAME=$(cat proton-inputs.json | jq -r '.environment.name')
+          # Get namespace name
+          - NS_NAME=$(cat proton-inputs.json | jq -r '.service_instance.inputs.namespace')
+          # Run create namespace script
+          - chmod +x ./ns_update.py && ./ns_update.py delete-namespace $NS_NAME $ENV_NAME

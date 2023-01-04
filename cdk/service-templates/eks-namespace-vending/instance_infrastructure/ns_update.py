@@ -4,6 +4,7 @@ import boto3
 import yaml
 import typer
 from rich import print
+from os import getenv
 
 app = typer.Typer()
 client = boto3.client('proton')
@@ -15,11 +16,17 @@ def collect_metadata(environment_name: str):
     namespaces = specFile['spec']['namespaces']
     return environment, specFile, namespaces
 
-def validate_ns_exist(namespace: str, namespaces: list):
+def validate_ns_exist(namespace: str, namespaces: list, action: str):
+    """
+    Return true if no action is required (on provisioning if namespace already exists)
+    """
     if namespace in namespaces:
-        raise Exception(f"{namespace} aleady exists in the environment configuration. Please supply a unique name.")
+        if action == 'delete':
+            return False
+        else:
+            return True
     else:
-        return
+        return False
 
 def prepare_spec(namespaces, spec):
     spec['spec']['namespaces'] = namespaces
@@ -50,40 +57,62 @@ def update_proton_environment(environment, env_name, spec):
 
         print("Deployment complete!")
 
-def create_proton_outputs_file(nsName):
-    kubectlCommand = "aws eks update-kubeconfig --name cluster-name-here --region region-here --role-arn role-arn-here"
-    toWrite = f'''[
-  {{
-    "key": "NamespaceName",
-    "valueString": "{nsName}"
-  }},
-  {{
-    "key": "KubectlConfiguration",
-    "valueString": "{kubectlCommand}"
-  }}
-]'''
-    # Write to proton-outputs.json file
-    with open("proton-outputs.json.test", "w") as outfile:
-      outfile.write(toWrite)
+def finalize_deployment(nsName, action):
+    if action == 'create':
+        kubectlCommand = "aws eks update-kubeconfig --name cluster-name-here --region region-here --role-arn role-arn-here"
+        client.notify_resource_deployment_status_change(
+            resourceArn=getenv('RESOURCE_ARN'),
+            outputs=[
+              {
+                "key": "NamespaceName",
+                "valueString": nsName
+              },
+              {
+                "key": "KubectlConfiguration",
+                "valueString": kubectlCommand
+              }
+            ],
+            status='SUCCEEDED'
+        )
+    else:
+        print("Complete")
+
+def proton_environment_deployment(namespace_name, environment_name, action):
+    environment, spec, ns = collect_metadata(environment_name)
+    
+    ns_exists = validate_ns_exist(namespace_name, ns, action)
+
+    if action == 'create' and ns_exists is False:
+        ns.append(namespace_name)
+        text_action = "Creating"
+    elif action == 'delete' and ns_exists is False:
+        ns.remove(namespace_name)
+        text_action = 'Deleting'
+    else:
+        text_action = "Updating"
+
+    updated_spec = prepare_spec(ns, spec)
+    print(f"{text_action} \"{namespace_name}\" namespace for environment \"{environment_name}\"")
+    update_proton_environment(environment, environment_name, updated_spec)
+    finalize_deployment(namespace_name, action)
 
 @app.command()
 def create_namespace(
     namespace_name: str = typer.Argument(..., help="Kubernetes namespace name"), 
-    environment_name: str = typer.Argument(..., help="Environment to deploy namespace")):
+    environment_name: str = typer.Argument(..., help="Environment to deploy namespace on")):
     """
     Create a namespace on the EKS environment managed via AWS Proton
     """
-    environment, spec, ns = collect_metadata(environment_name)
-    validate_ns_exist(namespace_name, ns)
-    ns.append(namespace_name)
-    updated_spec = prepare_spec(ns, spec)
-    print(f"Deploying \"{namespace_name}\" namespace to environment \"{environment_name}\"")
-    update_proton_environment(environment, environment_name, updated_spec)
-    create_proton_outputs_file(ns)
+    proton_environment_deployment(namespace_name, environment_name, "create")
 
 @app.command()
-def delete_namespace(namespace_name: str = typer.Argument(..., help="Kubernetes namespace name")):
-    print(f"{namespace_name}")
+def delete_namespace(
+    namespace_name: str = typer.Argument(..., help="Kubernetes namespace name"), 
+    environment_name: str = typer.Argument(..., help="Environment to deploy namespace on")):
+    """
+    Create a namespace on the EKS environment managed via AWS Proton
+    """
+    proton_environment_deployment(namespace_name, environment_name, "delete")
 
 if __name__ == "__main__":
     app()
