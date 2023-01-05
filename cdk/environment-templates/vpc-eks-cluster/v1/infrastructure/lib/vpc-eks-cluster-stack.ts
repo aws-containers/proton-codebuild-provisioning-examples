@@ -51,12 +51,16 @@ export default class ClusterConstruct extends cdk.Stack {
 
     let teams: blueprints.Team[] = [new AdminTeam(cdk.Stack.of(this).account)];
 
-    for (const ns of props.namespaces!) {
-      // Creating role ARN for now. Eventually we should support k/v maps in the console
-      const iamRole = new Role(this, `NSRole${ns}`, {
-        assumedBy: new cdk.aws_iam.AccountPrincipal(cdk.Stack.of(this).account),
-      });
-      teams.push(new DevTeam(ns, iamRole.roleArn));
+    if (props.namespaces) {
+      for (const ns of props.namespaces!) {
+        // Creating role ARN for now. Eventually we should support k/v maps in the console
+        const iamRole = new Role(this, `NSRole${ns}`, {
+          assumedBy: new cdk.aws_iam.AccountPrincipal(
+            cdk.Stack.of(this).account
+          ),
+        });
+        teams.push(new DevTeam(ns, iamRole.roleArn));
+      }
     }
 
     let clusterVersion: KubernetesVersion;
