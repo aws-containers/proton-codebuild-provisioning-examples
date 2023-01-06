@@ -8,6 +8,7 @@ import {
   NodegroupAmiType,
 } from "aws-cdk-lib/aws-eks";
 import { InstanceType } from "aws-cdk-lib/aws-ec2";
+import * as logs from "aws-cdk-lib/aws-logs";
 import { Role } from "aws-cdk-lib/aws-iam";
 import { AdminTeam, DevTeam } from "./teams";
 
@@ -109,7 +110,20 @@ export default class ClusterConstruct extends cdk.Stack {
       addOns.push(new blueprints.addons.CertManagerAddOn());
     }
     if (props?.fluentBit) {
-      addOns.push(new blueprints.addons.AwsForFluentBitAddOn());
+      // For this example we will create a cloudwatch logs group and forward logs there
+      addOns.push(
+        new blueprints.addons.AwsForFluentBitAddOn({
+          values: {
+            cloudWatch: {
+              enabled: true,
+              region: cdk.Stack.of(this).region,
+              logGroupName: new logs.LogGroup(this, "FluentBitLG", {
+                retention: logs.RetentionDays.ONE_WEEK,
+              }).logGroupName,
+            },
+          },
+        })
+      );
     }
     if (props?.lbController) {
       addOns.push(new blueprints.addons.AwsLoadBalancerControllerAddOn());
