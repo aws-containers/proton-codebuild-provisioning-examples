@@ -9,13 +9,13 @@ infrastructure:
           # Run when create/update is triggered for environment or service
           # Install dependencies
           - npm install
-          - npm run cdk deploy
+          - npm run cdk -- deploy
           # Script to convert CFN outputs into outputs for Proton
           - chmod +x ./cdk-to-proton.sh
           - cat proton-outputs.json | ./cdk-to-proton.sh > outputs.json
           # Notify AWS Proton of deployment status
-          - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status IN_PROGRESS --outputs file://./outputs.json
+          - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status SUCCEEDED --outputs file://./outputs.json
         deprovision:
           # Install dependencies and destroy resources
           - npm install
-          - cdk destroy --force
+          - npm run cdk -- destroy --force
