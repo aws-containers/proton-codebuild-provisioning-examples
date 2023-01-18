@@ -1,2 +1,2 @@
-compatible_environment:
+compatible_environments:
   - vpc-ecs-cluster:1
