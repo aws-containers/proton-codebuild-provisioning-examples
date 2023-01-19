@@ -42,3 +42,8 @@ schema:
           type: string
           description: S3 Bucket to store Terraform state
           default: s3-bucket-name-here
+        aws_region:
+          title: AWS Region
+          type: string
+          description: AWS Region to deploy resources
+          default: us-east-1

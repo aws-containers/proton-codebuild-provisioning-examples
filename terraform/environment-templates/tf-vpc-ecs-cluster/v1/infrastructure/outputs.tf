@@ -37,3 +37,8 @@ output "private_subnet_two_id" {
   description = "private subnet two"
   value       = module.fargate_env.private_subnet_two_id
 }
+
+output "aws_region" {
+  description = "AWS Region where resources reside"
+  value       = var.region
+}
