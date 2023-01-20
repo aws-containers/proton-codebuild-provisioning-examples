@@ -38,7 +38,12 @@ output "private_subnet_two_id" {
   value       = module.fargate_env.private_subnet_two_id
 }
 
-output "aws_region" {
+output "tf_state_bucket" {
+  description = "Terraform state bucket name"
+  value       = var.tf_state_bucket
+}
+
+output "tf_state_bucket_region" {
   description = "AWS Region where resources reside"
-  value       = var.region
+  value       = var.tf_state_bucket_region
 }

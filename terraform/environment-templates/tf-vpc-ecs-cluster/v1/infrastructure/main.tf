@@ -8,7 +8,9 @@ terraform {
     }
   }
 
-  backend "s3" {}
+  backend "s3" {
+    region = var.tf_state_bucket_region
+  }
 }
 
 provider "aws" {
