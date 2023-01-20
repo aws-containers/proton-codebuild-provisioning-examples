@@ -33,6 +33,8 @@ infrastructure:
 
           # get user-named proton input
           - export PROTON_ENV=$(cat proton-inputs.json | jq '.environment.name' -r)
+          - export AWS_REGION=$(cat proton-inputs.json | jq '.environment.inputs.aws_region' -r)
+          - export TF_STATE_BUCKET=$(cat proton-inputs.json | jq '.environment.inputs.tf_state_bucket' -r)
 
           # destroy environment
           - terraform init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=${PROTON_ENV}.tfstate"
