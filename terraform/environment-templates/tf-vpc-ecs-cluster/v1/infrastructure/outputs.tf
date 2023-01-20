@@ -44,6 +44,11 @@ output "tf_state_bucket" {
 }
 
 output "tf_state_bucket_region" {
-  description = "AWS Region where resources reside"
+  description = "AWS Region where state bucket resides"
   value       = var.environment.inputs.tf_state_bucket_region
+}
+
+output "aws_region" {
+  description = "AWS Region where resources reside"
+  value       = var.environment.inputs.aws_region
 }
