@@ -8,12 +8,12 @@ The environment supports asynchronous service-to-service communication using a p
 
 ## Register Template in AWS Proton
 
-To register this template in AWS Proton, you can either use the GUI console, or you can run the `make template` command specifying an S3 bucket used to store the template bundle and the version you'd like to register.  Note that you can use the same S3 bucket we created in the [bootstrap](../../bootstrap/) step.
+To register this template in AWS Proton, you can either use the GUI console, or you can run the `make template` command specifying an S3 bucket used to store the template bundle and the version you'd like to register. Note that you can use the same S3 bucket we created in the [bootstrap](../../bootstrap/) step.
 
-Note that you can also setup Git Sync so that each commit is automatically registered in Proton.
+Note that you can also setup [Template Sync](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) so that each commit is automatically registered in Proton.
 
 ```sh
-cd terraform/environment-templates/vpc-ecs-cluster
+cd terraform/environment-templates/tf-vpc-ecs-cluster
 make template bucket=my-bucket version=1
 ```
 
