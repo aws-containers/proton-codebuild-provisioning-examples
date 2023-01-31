@@ -20,7 +20,6 @@ export interface ClusterConstructProps extends cdk.StackProps {
   metricsServer?: boolean;
   karpenter?: boolean;
   lbController?: boolean;
-  fluentBit?: boolean;
   certManager?: boolean;
   k8Version: string;
   clusterName?: string;
@@ -108,23 +107,6 @@ export default class ClusterConstruct extends cdk.Stack {
     }
     if (props?.certManager) {
       addOns.push(new blueprints.addons.CertManagerAddOn());
-    }
-    if (props?.fluentBit) {
-      // For this example we will create a cloudwatch logs group and forward logs there
-      addOns.push(
-        new blueprints.addons.AwsForFluentBitAddOn({
-          namespace: "default",
-          values: {
-            cloudWatch: {
-              enabled: true,
-              region: cdk.Stack.of(this).region,
-              logGroupName: new logs.LogGroup(this, "FluentBitLG", {
-                retention: logs.RetentionDays.ONE_WEEK,
-              }).logGroupName,
-            },
-          },
-        })
-      );
     }
     if (props?.lbController) {
       addOns.push(new blueprints.addons.AwsLoadBalancerControllerAddOn());

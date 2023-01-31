@@ -28,10 +28,6 @@ schema:
           title: "Enable OPA GateKeeper Add-On"
           type: boolean
           default: false
-        fluentBit:
-          title: "Enable AWS for FluentBit Add-On"
-          type: boolean
-          default: false
         certManager:
           title: "Enable Cert Manager Add-On"
           type: boolean
