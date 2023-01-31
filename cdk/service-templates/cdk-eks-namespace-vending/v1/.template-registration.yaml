@@ -1,2 +1,2 @@
-compatible_environment:
+compatible_environments:
   - cdk-vpc-eks-cluster:1
