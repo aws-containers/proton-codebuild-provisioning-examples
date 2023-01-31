@@ -13,7 +13,7 @@ EXPECTED_DEPLOYMENT_STATUS = ['IN_PROGRESS','DELETE_IN_PROGRESS','DELETE_COMPLET
 def collect_metadata(environment_name: str):
     environment = client.get_environment(name=environment_name)
     specFile = yaml.safe_load(environment['environment']['spec'])
-    namespaces = specFile['spec']['namespaces']
+    namespaces = specFile['spec'].get('namespaces', [])
     return environment, specFile, namespaces
 
 def validate_ns_exist(namespace: str, namespaces: list, action: str):
