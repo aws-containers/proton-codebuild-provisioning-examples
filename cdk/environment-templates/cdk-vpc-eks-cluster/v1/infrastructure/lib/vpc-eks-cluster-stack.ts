@@ -113,6 +113,7 @@ export default class ClusterConstruct extends cdk.Stack {
       // For this example we will create a cloudwatch logs group and forward logs there
       addOns.push(
         new blueprints.addons.AwsForFluentBitAddOn({
+          namespace: "default",
           values: {
             cloudWatch: {
               enabled: true,
