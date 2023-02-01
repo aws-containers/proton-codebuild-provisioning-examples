@@ -7,11 +7,11 @@ set -e
 # To solve this, we deploy the cluster-stack stack first, then we can deploy the cluster stack 
 ###
 
-#VERSION=v4.30.6
-#BINARY=yq_linux_amd64
-#
-#wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
-#  tar xz && mv ${BINARY} /usr/bin/yq
+VERSION=v4.30.6
+BINARY=yq_linux_amd64
+
+wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
+  tar xz && mv ${BINARY} /usr/bin/yq
 
 env_name=$(cat proton-inputs.json | jq -r '.environment.name')
 # For first time run, environment will not exist therefor we create an empty json object
