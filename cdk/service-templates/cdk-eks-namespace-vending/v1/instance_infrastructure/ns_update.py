@@ -32,30 +32,34 @@ def prepare_spec(namespaces, spec):
     spec['spec']['namespaces'] = namespaces
     return yaml.dump(spec)
 
+def env_waiter(env_name, waiter_delay=10, max_attempts=60):
+        print("Confirming if deployment can begin")
+        waiter = client.get_waiter('environment_deployed')
+        waiter.wait(
+            name=env_name,
+            WaiterConfig={
+                'Delay': waiter_delay,
+                'MaxAttempts': max_attempts
+            }
+        )
+        print("Ready for deployment")
+
 def update_proton_environment(environment, env_name, spec):
-    waiter_delay = 10
-    max_attempts = 60
+    env_waiter(env_name)
+    environment = client.get_environment(name=env_name)
     if environment['environment']['deploymentStatus'] not in EXPECTED_DEPLOYMENT_STATUS:
-        response = client.update_environment(
+        client.update_environment(
             deploymentType='CURRENT_VERSION',
             description='Automated update via EKS namespace vending',
             name=env_name,
             spec=spec
         )
+    else:
+        raise Exception("Environment was stuck in a deployment state longer than acceptable. Please investigate.")
 
-        print("Waiting for environment to complete deployment of namespace")
-
-        waiter = client.get_waiter('environment_deployed')
-
-        waiter.wait(
-            name=env_name,
-            WaiterConfig={
-                'Delay': waiter_delay,
-                'MaxAttempts':max_attempts
-            }
-        )
-
-        print("Deployment complete!")
+    print("Waiting for environment to complete deployment of namespace")
+    env_waiter(env_name)
+    print("Deployment complete!")
 
 def finalize_deployment(nsName, action):
     if action == 'create':
