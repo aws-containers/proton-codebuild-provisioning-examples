@@ -160,6 +160,6 @@ export default class ClusterConstruct extends cdk.Stack {
       .region(region)
       .addOns(...addOns)
       .teams(...teams)
-      .build(scope, stackName);
+      .build(scope, `${stackName}-eks`);
   }
 }
