@@ -1,8 +1,8 @@
 {
-  "name": "vpc-ecs-cluster",
+  "name": "vpc-eks-cluster",
   "version": "0.1.0",
   "bin": {
-    "vpc-ecs-cluster": "bin/vpc-ecs-cluster.js"
+    "vpc-eks-cluster": "bin/vpc-eks-cluster.js"
   },
   "scripts": {
     "build": "tsc",
@@ -14,16 +14,16 @@
     "@types/jest": "^27.5.2",
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",
-    "aws-cdk": "2.51.1",
+    "aws-cdk": "2.60.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.8.1",
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "@aws-quickstart/eks-blueprints": "^1.5.2",
+    "@aws-quickstart/eks-blueprints": "^1.5.4",
     "@kubecost/kubecost-eks-blueprints-addon": "^0.1.2",
-    "aws-cdk-lib": "2.51.1",
+    "aws-cdk-lib": "2.60.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
