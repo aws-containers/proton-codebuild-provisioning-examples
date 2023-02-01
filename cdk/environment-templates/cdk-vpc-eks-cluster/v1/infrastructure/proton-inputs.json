@@ -1,16 +1,16 @@
 {
   "environment": {
-    "name": "adamtest",
+    "name": "ekscdkdemo",
     "inputs": {
+      "clusterName": "",
       "vpcCidr": "10.0.0.0/16",
       "k8Version": "1.23",
-      "opaGateKeeper": false,
-      "certManager": false,
-      "karpenter": false,
-      "lbController": false,
-      "metricsServer": false,
-      "kubeCost": false,
-      "namespaces": ["test1"]
+      "opaGateKeeper": true,
+      "certManager": true,
+      "karpenter": true,
+      "lbController": true,
+      "metricsServer": true,
+      "kubeCost": true
     }
   }
 }

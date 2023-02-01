@@ -7,12 +7,8 @@ const account = process.env.CDK_DEFAULT_ACCOUNT!;
 const region = process.env.CDK_DEFAULT_REGION;
 const env = { account, region };
 
-const appInputs = { env, ...environmentInputs };
+const appInputs = { env, ...environmentInputs, stackName: stackName };
 
-const clusterDeployment = new ClusterConstruct(
-  app,
-  `${stackName}-cluster`,
-  appInputs
-);
+new ClusterConstruct(app, `${stackName}-cluster`, appInputs);
 
 //cdk.Tags.of(clusterDeployment).add("")

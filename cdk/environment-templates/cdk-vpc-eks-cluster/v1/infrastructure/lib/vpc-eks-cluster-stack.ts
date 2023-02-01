@@ -8,11 +8,11 @@ import {
   NodegroupAmiType,
 } from "aws-cdk-lib/aws-eks";
 import { InstanceType } from "aws-cdk-lib/aws-ec2";
-import * as logs from "aws-cdk-lib/aws-logs";
 import { Role } from "aws-cdk-lib/aws-iam";
 import { AdminTeam, DevTeam } from "./teams";
 
 export interface ClusterConstructProps extends cdk.StackProps {
+  stackName: string;
   argoCd?: boolean;
   opaGateKeeper?: boolean;
   kubeCost?: boolean;
@@ -34,7 +34,7 @@ export default class ClusterConstruct extends cdk.Stack {
 
     const account = props?.env?.account!;
     const region = props?.env?.region!;
-    const stackName = props?.clusterName ?? `${id}-stack`;
+    const stackName = props.stackName;
     const clusterName = props.clusterName ?? stackName;
     const vpcName = stackName;
 
