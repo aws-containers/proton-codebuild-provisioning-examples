@@ -18,6 +18,7 @@ env_name=$(cat proton-inputs.json | jq -r '.environment.name')
 current_env=$(aws proton get-environment --name $env_name || echo '{}')
 current_ns_length=$(echo $current_env | jq -r '.environment.spec' | yq '.spec.namespaces|length')
 new_ns_length=$(cat proton-inputs.json | jq -r '.environment.inputs.namespaces | length')
+
 echo -e "Current namespace count: ${current_ns_length}\nProposed namespace count: ${new_ns_length}"
 
 if [[ ${new_ns_length} -lt ${current_ns_length} ]]; then
