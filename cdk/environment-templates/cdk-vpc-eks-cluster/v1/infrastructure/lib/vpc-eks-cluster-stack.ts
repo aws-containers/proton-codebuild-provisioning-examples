@@ -7,7 +7,7 @@ import {
   KubernetesVersion,
   NodegroupAmiType,
 } from "aws-cdk-lib/aws-eks";
-import { InstanceType } from "aws-cdk-lib/aws-ec2";
+import { InstanceType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Role } from "aws-cdk-lib/aws-iam";
 import { AdminTeam, DevTeam } from "./teams";
 
@@ -93,17 +93,20 @@ export default class ClusterConstruct extends cdk.Stack {
     ];
 
     if (props?.karpenter) {
-      addOns.push(
-        new blueprints.addons.KarpenterAddOn({
-          consolidation: { enabled: true },
-          subnetTags: {
-            Name: `${stackName}/${stackName}/PrivateSubnet*`,
-          },
-          securityGroupTags: {
-            [`kubernetes.io/cluster/${stackName}`]: "owned",
-          },
-        })
-      );
+      console.log("Karpenter is presently disabled");
+      // https://github.com/aws-quickstart/cdk-eks-blueprints/issues/587
+      // Will re-enable once above issue is resolved
+      //addOns.push(
+      //  new blueprints.addons.KarpenterAddOn({
+      //    consolidation: { enabled: true },
+      //    subnetTags: {
+      //      Name: `${stackName}/${stackName}/PrivateSubnet*`,
+      //    },
+      //    securityGroupTags: {
+      //      [`kubernetes.io/cluster/${stackName}`]: "owned",
+      //    },
+      //  })
+      //);
     }
     if (props?.certManager) {
       addOns.push(new blueprints.addons.CertManagerAddOn());
@@ -129,19 +132,14 @@ export default class ClusterConstruct extends cdk.Stack {
         {
           id: "bottleRocketX86Spot",
           amiType: NodegroupAmiType.BOTTLEROCKET_X86_64,
-          instanceTypes: [
-            new InstanceType("m5.xlarge"),
-            new InstanceType("m5.large"),
-            new InstanceType("m4.xlarge"),
-            new InstanceType("m4.large"),
-          ],
+          instanceTypes: [new InstanceType("t3.medium")],
           diskSize: 50,
           nodeGroupCapacityType: CapacityType.SPOT,
         },
         {
           id: "bottleRocketX86OnDemand",
           amiType: NodegroupAmiType.BOTTLEROCKET_X86_64,
-          instanceTypes: [new InstanceType("m5.xlarge")],
+          instanceTypes: [new InstanceType("t3.medium")],
           diskSize: 50,
           nodeGroupCapacityType: CapacityType.ON_DEMAND,
         },
