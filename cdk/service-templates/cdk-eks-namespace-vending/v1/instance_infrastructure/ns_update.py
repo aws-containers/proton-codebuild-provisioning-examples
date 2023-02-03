@@ -33,7 +33,7 @@ def prepare_spec(namespaces, spec):
     return yaml.dump(spec)
 
 def env_waiter(env_name, waiter_delay=10, max_attempts=60):
-        print("Confirming if deployment can begin")
+        print("Checking/waiting for available status for environment")
         waiter = client.get_waiter('environment_deployed')
         waiter.wait(
             name=env_name,
@@ -42,7 +42,7 @@ def env_waiter(env_name, waiter_delay=10, max_attempts=60):
                 'MaxAttempts': max_attempts
             }
         )
-        print("Ready for deployment")
+        print("Waiting complete")
 
 def update_proton_environment(environment, env_name, spec):
     env_waiter(env_name)
@@ -57,7 +57,6 @@ def update_proton_environment(environment, env_name, spec):
     else:
         raise Exception("Environment was stuck in a deployment state longer than acceptable. Please investigate.")
 
-    print("Waiting for environment to complete deployment of namespace")
     env_waiter(env_name)
     print("Deployment complete!")
 
