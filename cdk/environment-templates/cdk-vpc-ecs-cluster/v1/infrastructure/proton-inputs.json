@@ -1,12 +1,12 @@
 {
   "environment": {
-    "name": "cdk-env-demo",
+    "name": "cdk-ecs-env-demo",
     "inputs": {
       "vpc_cidr_block": "10.0.0.0/16",
       "ec2_capacity": false,
       "ec2_instance_type": "t3.medium",
-      "allow_ecs_exec": false,
-      "enhanced_cluster_monitoring": false,
+      "allow_ecs_exec": true,
+      "enhanced_cluster_monitoring": true,
       "service_discovery_namespace": "proton.cdkdemo.svc"
     }
   }

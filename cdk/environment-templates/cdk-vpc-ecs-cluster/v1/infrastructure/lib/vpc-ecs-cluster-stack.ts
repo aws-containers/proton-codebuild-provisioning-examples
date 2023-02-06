@@ -15,16 +15,17 @@ export class VpcEcsClusterStack extends Stack {
 
     const vpc = new ec2.Vpc(this, "ProtonVPC", {
       vpcName: stackName,
-      cidr: environmentInputs.vpc_cidr_block,
+      ipAddresses: ec2.IpAddresses.cidr(environmentInputs.vpc_cidr_block),
     });
 
-    let clusterInputs: any = {
+    let clusterInputs: ecs.ClusterProps = {
       vpc: vpc,
       enableFargateCapacityProviders: true,
       containerInsights: environmentInputs.enhanced_cluster_monitoring,
       clusterName: stackName,
       defaultCloudMapNamespace: {
         name: environmentInputs.service_discovery_namespace,
+        useForServiceConnect: true,
       },
     };
 
@@ -32,7 +33,10 @@ export class VpcEcsClusterStack extends Stack {
       const ecsExecConfig: ecs.ExecuteCommandConfiguration = {
         logging: ecs.ExecuteCommandLogging.DEFAULT,
       };
-      clusterInputs = { ...clusterInputs, ecsExecConfig };
+      clusterInputs = {
+        ...clusterInputs,
+        executeCommandConfiguration: ecsExecConfig,
+      };
     }
 
     const ecsCluster = new ecs.Cluster(this, "ProtonECSCluster", clusterInputs);
