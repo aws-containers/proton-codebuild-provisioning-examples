@@ -1,13 +1,13 @@
 {
   "environment": {
     "account_id": "12345678910",
-    "name": "cdk-env-demo",
+    "name": "cdk-ecs-cluster-env",
     "outputs": {
-      "ECSClusterArn": "arn:aws:ecs:us-east-1:12345678910:cluster/environment-cdk-env-demo",
+      "ECSClusterArn": "arn:aws:ecs:us-west-2:12345678910:cluster/cdk-ecs-cluster-env",
       "ECSClusterSecGrps": "[]",
-      "VPCId": "vpc-06dda7e98a726aff5",
-      "ECSClusterName": "environment-cdk-env-demo",
-      "ECSClusterSDNamespace": "cdkenvdemo.svc"
+      "VPCId": "vpc-0287059029960c111",
+      "ECSClusterName": "cdk-ecs-cluster-env",
+      "ECSClusterSDNamespace": "ecs-cdk-demo.dev"
     }
   },
   "service": {
@@ -19,12 +19,13 @@
   "service_instance": {
     "name": "test",
     "inputs": {
-      "port": 80,
+      "port": 3000,
       "desired_count": 1,
-      "task_size": "x-small",
-      "image": "public.ecr.aws/nginx/nginx:stable",
+      "task_size": "small",
+      "image": "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50",
       "load_balanced": true,
-      "load_balanced_public": true
+      "load_balanced_public": true,
+      "service_discovery_name": ""
     }
   }
 }
