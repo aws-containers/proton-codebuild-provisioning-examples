@@ -9,8 +9,8 @@ export class EcsFargateServiceStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
-    const environmentOutputs = input.environment;
-    const instanceInputs = input.service_instance;
+    const environmentOutputs: { [index: string]: any } = input.environment;
+    const instanceInputs: { [index: string]: any } = input.service_instance;
     const stackName = props.stackName ?? input.environment.name;
     const taskSize = setTaskSize();
 
@@ -70,13 +70,37 @@ export class EcsFargateServiceStack extends Stack {
       memoryLimitMiB: taskSize.memory,
     });
 
+    const portMappingName = `${stackName}-${instanceInputs.name}`;
+    const envVarMap: { [index: string]: string } = {};
+
+    if (instanceInputs.inputs?.env_vars !== undefined) {
+      for (const envArray of instanceInputs.inputs.env_vars) {
+        const kv = envArray.split("=");
+        envVarMap[kv[0]] = kv[1];
+      }
+    }
+
     const containerDef = taskDef.addContainer("main", {
       image: ecs.ContainerImage.fromRegistry(instanceInputs.inputs.image),
-      portMappings: [{ containerPort: instanceInputs.inputs.port }],
+      portMappings: [
+        { containerPort: instanceInputs.inputs.port, name: portMappingName },
+      ],
       logging: ecs.LogDriver.awsLogs({
         streamPrefix: `ecs-${instanceInputs.name}`,
       }),
+      environment: envVarMap,
     });
+
+    const serviceConnectInputs: ecs.ServiceConnectProps = {
+      namespace: environmentOutputs.outputs.ECSClusterSDNamespace,
+      services: [
+        {
+          portMappingName: portMappingName,
+          port: instanceInputs.inputs.port,
+          discoveryName: `${input.service.name}-${instanceInputs.name}`,
+        },
+      ],
+    };
 
     const ecsService = new ecs.FargateService(this, "EcsFargateSvc", {
       taskDefinition: taskDef,
@@ -89,6 +113,7 @@ export class EcsFargateServiceStack extends Stack {
         rollback: false,
       },
       desiredCount: instanceInputs.inputs.desired_count,
+      serviceConnectConfiguration: serviceConnectInputs,
     });
 
     if (instanceInputs.inputs.load_balanced) {
