@@ -97,7 +97,9 @@ export class EcsFargateServiceStack extends Stack {
         {
           portMappingName: portMappingName,
           port: instanceInputs.inputs.port,
-          discoveryName: `${input.service.name}-${instanceInputs.name}`,
+          discoveryName:
+            instanceInputs.inputs.service_discovery_name ??
+            `${input.service.name}-${instanceInputs.name}`,
         },
       ],
     };
