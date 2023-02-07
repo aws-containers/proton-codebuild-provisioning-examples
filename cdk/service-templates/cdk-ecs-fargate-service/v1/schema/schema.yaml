@@ -49,3 +49,12 @@ schema:
           type: boolean
           description: "This determines where the load balancer is placed in the network - internet facing or private to the vpc"
           default: public
+        env_vars:
+          title: "Environment variables"
+          description: "Environment variables to be exposed to the container at runtime"
+          type: array
+          example:
+            - "ENV_VAR1=TEST1"
+            - "ENV_VAR2=TEST2"
+          items:
+            type: string
