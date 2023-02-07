@@ -135,8 +135,8 @@ export class EcsFargateServiceStack extends Stack {
 
     new CfnOutput(this, "ServiceDiscoveryName", {
       value:
-        `${instanceInputs.inputs.service_discovery_name}.${environmentOutputs.ECSClusterSDNamespace}` ??
-        `${input.service.name}-${instanceInputs.name}.${environmentOutputs.ECSClusterSDNamespace}`,
+        `${instanceInputs.inputs.service_discovery_name}.${environmentOutputs.outputs.ECSClusterSDNamespace}` ??
+        `${input.service.name}-${instanceInputs.name}.${environmentOutputs.outputs.ECSClusterSDNamespace}`,
     });
   }
 }
