@@ -132,5 +132,11 @@ export class EcsFargateServiceStack extends Stack {
         ec2.Port.tcp(instanceInputs.inputs.port)
       );
     }
+
+    new CfnOutput(this, "ServiceDiscoveryName", {
+      value:
+        `${instanceInputs.inputs.service_discovery_name}.${environmentOutputs.ECSClusterSDNamespace}` ??
+        `${input.service.name}-${instanceInputs.name}.${environmentOutputs.ECSClusterSDNamespace}`,
+    });
   }
 }
