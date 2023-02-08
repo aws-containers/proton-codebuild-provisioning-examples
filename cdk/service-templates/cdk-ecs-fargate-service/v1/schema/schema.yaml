@@ -51,7 +51,7 @@ schema:
           default: public
         env_vars:
           title: "Environment variables"
-          description: "Environment variables to be exposed to the container at runtime"
+          description: "Example: ENV_VAR_1=VALUE"
           type: array
           example:
             - "ENV_VAR1=TEST1"

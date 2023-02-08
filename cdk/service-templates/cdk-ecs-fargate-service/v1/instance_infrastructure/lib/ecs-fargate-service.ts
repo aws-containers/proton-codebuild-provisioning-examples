@@ -97,7 +97,9 @@ export class EcsFargateServiceStack extends Stack {
         {
           portMappingName: portMappingName,
           port: instanceInputs.inputs.port,
-          discoveryName: `${input.service.name}-${instanceInputs.name}`,
+          discoveryName:
+            instanceInputs.inputs.service_discovery_name ??
+            `${input.service.name}-${instanceInputs.name}`,
         },
       ],
     };
@@ -114,6 +116,13 @@ export class EcsFargateServiceStack extends Stack {
       },
       desiredCount: instanceInputs.inputs.desired_count,
       serviceConnectConfiguration: serviceConnectInputs,
+      securityGroups: [
+        ec2.SecurityGroup.fromSecurityGroupId(
+          this,
+          "secGrpShared",
+          environmentOutputs.outputs.SharedSecGrp
+        ),
+      ],
     });
 
     if (instanceInputs.inputs.load_balanced) {
@@ -130,5 +139,11 @@ export class EcsFargateServiceStack extends Stack {
         ec2.Port.tcp(instanceInputs.inputs.port)
       );
     }
+
+    new CfnOutput(this, "ServiceDiscoveryName", {
+      value:
+        `${instanceInputs.inputs.service_discovery_name}.${environmentOutputs.outputs.ECSClusterSDNamespace}` ??
+        `${input.service.name}-${instanceInputs.name}.${environmentOutputs.outputs.ECSClusterSDNamespace}`,
+    });
   }
 }

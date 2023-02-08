@@ -18,6 +18,21 @@ export class VpcEcsClusterStack extends Stack {
       ipAddresses: ec2.IpAddresses.cidr(environmentInputs.vpc_cidr_block),
     });
 
+    const sharedSvcSecGrp = new ec2.SecurityGroup(this, "SharedSecurityGroup", {
+      vpc: vpc,
+      allowAllOutbound: true,
+    });
+
+    sharedSvcSecGrp.addIngressRule(
+      sharedSvcSecGrp,
+      ec2.Port.allTraffic(),
+      "Shared security group for services running in ecs cluster"
+    );
+
+    new CfnOutput(this, "SharedSecGrp", {
+      value: sharedSvcSecGrp.securityGroupId,
+    });
+
     let clusterInputs: ecs.ClusterProps = {
       vpc: vpc,
       enableFargateCapacityProviders: true,
