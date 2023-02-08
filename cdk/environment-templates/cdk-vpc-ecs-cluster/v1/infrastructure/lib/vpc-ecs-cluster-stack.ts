@@ -18,13 +18,13 @@ export class VpcEcsClusterStack extends Stack {
       ipAddresses: ec2.IpAddresses.cidr(environmentInputs.vpc_cidr_block),
     });
 
-    const sharedSvcSecGrp = new ec2.SecurityGroup(this, "SharedSecGrp", {
+    const sharedSvcSecGrp = new ec2.SecurityGroup(this, "SharedSecurityGroup", {
       vpc: vpc,
       allowAllOutbound: true,
     });
 
     sharedSvcSecGrp.addIngressRule(
-      ec2.Peer.securityGroupId(sharedSvcSecGrp.securityGroupId),
+      sharedSvcSecGrp,
       ec2.Port.allTraffic(),
       "Shared security group for services running in ecs cluster"
     );
