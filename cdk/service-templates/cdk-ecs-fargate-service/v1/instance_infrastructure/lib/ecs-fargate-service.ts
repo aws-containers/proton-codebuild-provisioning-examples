@@ -116,7 +116,13 @@ export class EcsFargateServiceStack extends Stack {
       },
       desiredCount: instanceInputs.inputs.desired_count,
       serviceConnectConfiguration: serviceConnectInputs,
-      securityGroups: [environmentOutputs.outputs.SharedSecGrp],
+      securityGroups: [
+        ec2.SecurityGroup.fromSecurityGroupId(
+          this,
+          "secGrpShared",
+          environmentOutputs.outputs.SharedSecGrp
+        ),
+      ],
     });
 
     if (instanceInputs.inputs.load_balanced) {
