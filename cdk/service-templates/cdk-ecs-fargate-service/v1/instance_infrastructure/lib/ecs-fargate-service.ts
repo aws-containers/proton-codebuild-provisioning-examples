@@ -116,6 +116,7 @@ export class EcsFargateServiceStack extends Stack {
       },
       desiredCount: instanceInputs.inputs.desired_count,
       serviceConnectConfiguration: serviceConnectInputs,
+      securityGroups: [environmentOutputs.outputs.SharedSecGrp],
     });
 
     if (instanceInputs.inputs.load_balanced) {
