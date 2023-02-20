@@ -3,7 +3,6 @@
     "name": "ekscdkbp",
     "inputs": {
       "clusterName": "",
-      "vpcCidr": "10.0.0.0/16",
       "k8Version": "1.23",
       "opaGateKeeper": true,
       "certManager": true,
@@ -11,7 +10,7 @@
       "lbController": true,
       "metricsServer": true,
       "kubeCost": true,
-      "namespaces": ["adam"]
+      "platformTeamRole": "arn:aws:iam::123456789123:role/Admin"
     }
   }
 }

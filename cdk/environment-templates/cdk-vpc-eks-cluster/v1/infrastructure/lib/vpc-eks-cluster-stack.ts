@@ -1,4 +1,3 @@
-import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as blueprints from "@aws-quickstart/eks-blueprints";
 import { KubecostAddOn } from "@kubecost/kubecost-eks-blueprints-addon";
@@ -7,15 +6,14 @@ import {
   KubernetesVersion,
   NodegroupAmiType,
 } from "aws-cdk-lib/aws-eks";
-import { Vpc } from "aws-cdk-lib/aws-ec2";
-import { Role } from "aws-cdk-lib/aws-iam";
 import { ApplicationTeam, PlatformTeam } from "@aws-quickstart/eks-blueprints";
 import {
   BOTTLEROCKET_SPOT_INSTANCES,
   BOTTLEROCKET_ON_DEMAND_INSTANCES,
 } from "./constants";
+import preReqOutputs from "../pre-req-outputs.json";
 
-export interface ClusterConstructProps extends cdk.StackProps {
+export interface ClusterConstructProps {
   stackName: string;
   argoCd?: boolean;
   opaGateKeeper?: boolean;
@@ -30,53 +28,36 @@ export interface ClusterConstructProps extends cdk.StackProps {
   vpcId?: string;
   vpcCidr?: string;
   namespaces?: string[];
+  env: { account: string; region: string | undefined };
+  platformTeamRole: string;
 }
 
-export default class ClusterConstruct extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: ClusterConstructProps) {
-    super(scope, id, props);
-
-    const account = props?.env?.account!;
-    const region = props?.env?.region!;
+export default class ClusterConstruct {
+  constructor(scope: Construct, props: ClusterConstructProps) {
     const stackName = props.stackName;
     const clusterName = props.clusterName ?? stackName;
-    const vpcName = stackName;
-
-    let vpc: cdk.aws_ec2.IVpc = new Vpc(this, "EKSVPC", {
-      vpcName: vpcName,
-    });
-
-    //if (props.vpcId) {
-    //  Need a custom resource to grab vpc name which is a tag
-    //  vpc = cdk.aws_ec2.Vpc.fromLookup(this, "ImportedVPC", {
-    //    vpcId: props.vpcId,
-    //  });
-    //}
 
     let teams: blueprints.Team[] = [
-      // Create a platform team rbac policy
       new PlatformTeam({
         name: "platformteam",
-        userRoleArn: `arn:aws:iam::${cdk.Stack.of(this).account}:role/Admin`,
+        userRoleArn: props.platformTeamRole,
       }),
     ];
 
-    if (props.namespaces) {
-      for (const ns of props.namespaces!) {
-        // Creating role ARN for now. Eventually we should support k/v maps in the console
-        const iamRole = new Role(this, `NSRole${ns}`, {
-          assumedBy: new cdk.aws_iam.AccountPrincipal(
-            cdk.Stack.of(this).account
-          ),
-        });
-        teams.push(
-          new ApplicationTeam({
-            name: ns,
-            namespace: ns,
-            userRoleArn: iamRole.roleArn,
-          })
+    if (preReqOutputs.hasOwnProperty(`PreReqStack${stackName}`)) {
+      Object.entries(preReqOutputs).forEach(([_, value]) => {
+        Object.entries(value as { [key: string]: string }).forEach(
+          ([nsName, nsRole]) => {
+            teams.push(
+              new ApplicationTeam({
+                name: nsName,
+                namespace: nsName,
+                userRoleArn: nsRole,
+              })
+            );
+          }
         );
-      }
+      });
     }
 
     let clusterVersion: KubernetesVersion;
@@ -143,7 +124,6 @@ export default class ClusterConstruct extends cdk.Stack {
     const clusterProvider = new blueprints.GenericClusterProvider({
       version: clusterVersion,
       clusterName: clusterName,
-      vpc: vpc,
       managedNodeGroups: [
         {
           id: "bottleRocketX86Spot",
@@ -170,8 +150,8 @@ export default class ClusterConstruct extends cdk.Stack {
 
     const blueprint = blueprints.EksBlueprint.builder()
       .clusterProvider(clusterProvider)
-      .account(account)
-      .region(region)
+      .account(props.env.account)
+      .region(props.env.region)
       .addOns(...addOns)
       .teams(...teams)
       .build(scope, `${stackName}-eks`);
