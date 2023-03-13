@@ -28,6 +28,7 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | The Proton Environment | <pre>object({<br>    name   = string<br>    inputs = map(string)<br>  })</pre> | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | aws region | `string` | `"us-east-1"` | no |
+| <a name="input_tf_state_bucket"></a> [tf\_state\_bucket](#input\_tf\_state\_bucket) | Terraform state bucket name. This is merely a passthrough so we can conveniently output it back to proton | `string` | n/a | yes |
 
 ## Outputs
 
@@ -40,5 +41,6 @@ No resources.
 | <a name="output_public_subnet_one_id"></a> [public\_subnet\_one\_id](#output\_public\_subnet\_one\_id) | public subnet one |
 | <a name="output_public_subnet_two_id"></a> [public\_subnet\_two\_id](#output\_public\_subnet\_two\_id) | public subnet two |
 | <a name="output_service_taskdef_execution_role"></a> [service\_taskdef\_execution\_role](#output\_service\_taskdef\_execution\_role) | task execution role |
+| <a name="output_tf_state_bucket"></a> [tf\_state\_bucket](#output\_tf\_state\_bucket) | Terraform state bucket name |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | vpc id |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

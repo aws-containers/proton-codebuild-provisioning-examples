@@ -40,15 +40,5 @@ output "private_subnet_two_id" {
 
 output "tf_state_bucket" {
   description = "Terraform state bucket name"
-  value       = var.environment.inputs.tf_state_bucket
-}
-
-output "tf_state_bucket_region" {
-  description = "AWS Region where state bucket resides"
-  value       = var.environment.inputs.tf_state_bucket_region
-}
-
-output "aws_region" {
-  description = "AWS Region where resources reside"
-  value       = var.environment.inputs.aws_region
+  value       = var.tf_state_bucket
 }

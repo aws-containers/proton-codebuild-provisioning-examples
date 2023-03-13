@@ -2,17 +2,10 @@
 
 This directory is home to sample Terraform templates to gain an understanding of how one can leverage Terraform with AWS Proton via Codebuild provisioning.
 
-## Bootstrap
+Please see the [environment](./environment-templates/README.md) and [service](./service-templates/README.md) templates under their respective directories.
 
-Prior to running Terraform in Proton, you'll need a place to store Terraform state. For the examples, you'll use an AWS S3 bucket for this purpose.
+Follow the [README](./environment-templates/tf-vpc-ecs-cluster/v1/README.md) [files](./service-templates/tf-ecs-fargate-lb-service/v1/README.md) in the template directories for instructions on how to register them with AWS Proton.
 
-You can bring your own S3 bucket, or create one using the Terraform configuration located in the [bootstrap](./bootstrap/README.md) directory.
-
-## Examples
-
-Example [environment](./environment-templates/README.md) and [service](./service-templates/README.md) templates under their respective directories.
-
-Follow the [README](./environment-templates/tf-vpc-ecs-cluster/README.md) [files](./service-templates/tf-ecs-fargate-load-balanced-service/README.md) in the template directories for instructions on how to register them with AWS Proton.
 
 ## Contributing
 
