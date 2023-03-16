@@ -1,4 +1,4 @@
-template := vpc-ecs-cluster
+template := tf-vpc-ecs-cluster
 key := proton-environment-template.tar.gz
 
 all: help

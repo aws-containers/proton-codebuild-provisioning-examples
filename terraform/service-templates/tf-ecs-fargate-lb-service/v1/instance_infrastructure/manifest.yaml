@@ -11,40 +11,33 @@ infrastructure:
 
         provision:
           # get proton input parameters
-          - cat proton-inputs.json
-          - export PROTON_ENV=$(cat proton-inputs.json | jq '.environment.name' -r)
-
-          # build bucket name for this environment
-          - export ACCOUNT=$(aws sts get-caller-identity --query "Account" --output text)
-          - export TF_STATE_BUCKET=terrform-remote-state-${ACCOUNT}-${PROTON_ENV}
-          - export KEY=env.tfstate
+          - export IN=$(cat proton-inputs.json) && echo ${IN}
+          - export PROTON_ENV=$(echo $IN | jq '.environment.name' -r)
+          - export PROTON_SVC=$(echo $IN | jq '.service.name' -r)
+          - export PROTON_SVC_INSTANCE=$(echo $IN | jq '.service_instance.name' -r)
+          - export TF_STATE_BUCKET=$(echo $IN | jq '.environment.outputs.tf_state_bucket' -r)
+          - export KEY=${PROTON_SVC}.${PROTON_SVC_INSTANCE}.tfstate
 
           # install terraform cli
           - echo "Installing Terraform CLI ${TF_VERSION}"
           - chmod +x ./install-terraform.sh && ./install-terraform.sh ${TF_VERSION}
 
-          # provision an s3 bucket using terraform to store tf remote state
-          # for this environment and all of its associated service instances
-          - cd s3-bucket && terraform init && terraform apply -auto-approve -var="name=${TF_STATE_BUCKET}"
-
           # provision vpc/ecs resources, storing state in the environment s3 bucket
-          - cd ../
           - echo "terraform remote state = s3://${TF_STATE_BUCKET}/${KEY}"
           - terraform init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=${KEY}"
-          - terraform apply -var-file=proton-inputs.json -var="tf_state_bucket=${TF_STATE_BUCKET}" -auto-approve
+          - terraform apply -var-file=proton-inputs.json -auto-approve
 
           # pass terraform output to proton
           - chmod +x ./output.sh && ./output.sh
 
         deprovision:
           # get proton input parameters
-          - cat proton-inputs.json
-          - export PROTON_ENV=$(cat proton-inputs.json | jq '.environment.name' -r)
-
-          # build bucket name
-          - export ACCOUNT=$(aws sts get-caller-identity --query "Account" --output text)
-          - export TF_STATE_BUCKET=terrform-remote-state-${ACCOUNT}-${PROTON_ENV}
-          - export KEY=env.tfstate
+          - export IN=$(cat proton-inputs.json) && echo ${IN}
+          - export PROTON_ENV=$(echo $IN | jq '.environment.name' -r)
+          - export PROTON_SVC=$(echo $IN | jq '.service.name' -r)
+          - export PROTON_SVC_INSTANCE=$(echo $IN | jq '.service_instance.name' -r)
+          - export TF_STATE_BUCKET=$(echo $IN | jq '.environment.outputs.tf_state_bucket' -r)
+          - export KEY=${PROTON_SVC}.${PROTON_SVC_INSTANCE}.tfstate
 
           # install terraform cli
           - echo "Installing Terraform CLI ${TF_VERSION}"
@@ -53,4 +46,4 @@ infrastructure:
           # destroy environment
           - echo "terraform remote state = s3://${TF_STATE_BUCKET}/${KEY}"
           - terraform init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=${KEY}"
-          - terraform destroy -var-file=proton-inputs.json -var="tf_state_bucket=${TF_STATE_BUCKET}" -auto-approve
+          - terraform destroy -var-file=proton-inputs.json -auto-approve

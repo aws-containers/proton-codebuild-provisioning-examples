@@ -1,4 +1,4 @@
-template := ecs-fargate-load-balanced-service
+template := tf-ecs-fargate-lb-service
 key := proton-service-template.tar.gz
 
 all: help
