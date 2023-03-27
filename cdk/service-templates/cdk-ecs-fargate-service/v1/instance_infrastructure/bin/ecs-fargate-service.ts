@@ -7,7 +7,7 @@ const protonEnv = {
   region: process.env.CDK_DEFAULT_REGION,
 };
 
-const stackName = input.service.name;
+const stackName = input.service_instance.name;
 
 const app = new App();
 
