@@ -35,7 +35,7 @@ resource "aws_ecs_cluster_capacity_providers" "main" {
 }
 
 resource "aws_iam_role" "main" {
-  name_prefix        = "service_task_definition_execution_role"
+  name               = var.name
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role_policy.json
 }
 
