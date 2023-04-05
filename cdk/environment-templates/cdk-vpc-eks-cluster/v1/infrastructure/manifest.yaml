@@ -11,7 +11,7 @@ infrastructure:
           - chmod +x ./cdk_deploy.sh ./cdk-to-proton.sh
           - ./cdk_deploy.sh
           - cat proton-outputs.json | ./cdk-to-proton.sh > outputs.json
-          - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status SUCCEEDED --outputs file://./outputs.json
+          - aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --outputs file://./outputs.json
         deprovision:
           - npm install
           - echo "{}" | tee  ./pre-req-outputs.json

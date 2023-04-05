@@ -32,7 +32,7 @@ Codebuild will reference this secret which is defined in the manifest file. More
   - Proton needs to be notified when the deployment is complete. If the Codebuild job fails, Proton will surface that information. On success, the following command needs to be ran:
 
   ```bash
-  aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --status IN_PROGRESS --outputs file://./outputs.json
+  aws proton notify-resource-deployment-status-change --resource-arn $RESOURCE_ARN --outputs file://./outputs.json
   ```
 
 ### Examples
