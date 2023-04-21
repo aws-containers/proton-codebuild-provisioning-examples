@@ -1,0 +1,55 @@
+infrastructure:
+  templates:
+    - rendering_engine: codebuild
+      settings:
+        image: aws/codebuild/standard:6.0
+        runtimes:
+          golang: 1.18
+        env:
+          variables:
+            TF_VERSION: 1.4.2
+
+        provision:
+          # make scripts executable
+          - find ./scripts -type f -iname "*.sh" -exec chmod +x {} \;
+
+          # install terraform cli
+          - echo "Installing Terraform CLI ${TF_VERSION}"
+          - ./scripts/install-terraform.sh ${TF_VERSION}
+
+          # get tf remote state bucket/key
+          - export IN=$(cat proton-inputs.json) && echo ${IN}
+          - . ./scripts/tf-state.sh && echo "terraform remote state = s3://${TF_STATE_BUCKET}/${KEY}"
+
+          # if not already exists, create github oidc provider
+          - account=$(aws sts get-caller-identity --query Account --output text)
+          - oidc=arn:aws:iam::${account}:oidc-provider/token.actions.githubusercontent.com
+          - aws iam get-open-id-connect-provider --open-id-connect-provider-arn ${oidc} || ./scripts/oidc.sh
+
+          # provision, storing state in an s3 bucket
+          - terraform init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=${KEY}"
+          - terraform apply -var-file=proton-inputs.json -auto-approve
+
+          # install github cli
+          - ./scripts/install-github-cli.sh
+
+          # submit a PR to the app repo with the GitHub Actions CI/CD workflow
+          - export REPO=$(echo ${IN} | jq '.service.repository_id' -r)
+          - export SECRET=$(echo ${IN} | jq '.pipeline.inputs.github_token_secret' -r)
+          - ./scripts/submit-pr.sh "${REPO}" "${SECRET}"
+
+        deprovision:
+          # make scripts executable
+          - find ./scripts -type f -iname "*.sh" -exec chmod +x {} \;
+
+          # install terraform cli
+          - echo "Installing Terraform CLI ${TF_VERSION}"
+          - ./scripts/install-terraform.sh ${TF_VERSION}
+
+          # get tf remote state bucket/key
+          - export IN=$(cat proton-inputs.json) && echo ${IN}
+          - . ./scripts/tf-state.sh && echo "terraform remote state = s3://${TF_STATE_BUCKET}/${KEY}"
+
+          # destroy environment
+          - terraform init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=${KEY}"
+          - terraform destroy -var-file=proton-inputs.json -auto-approve
