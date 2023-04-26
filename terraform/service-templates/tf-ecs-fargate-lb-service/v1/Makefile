@@ -27,7 +27,7 @@ template:
 	aws proton create-service-template-version \
 		--template-name ${template} \
 		--description "registered from CLI" \
-		--compatible-environment-templates="majorVersion=1,templateName=vpc-ecs-cluster" \
+		--compatible-environment-templates="majorVersion=1,templateName=tf-vpc-ecs-cluster" \
 		--source s3="{bucket=${bucket},key=${key}}"
 
 	aws proton wait service-template-version-registered \
