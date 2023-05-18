@@ -1,0 +1,32 @@
+{
+  "environment": {
+    "account_id": "12345678910",
+    "name": "cdk-ecs-cluster-env",
+    "outputs": {
+      "ECSClusterArn": "arn:aws:ecs:us-west-2:12345678910:cluster/cdk-ecs-cluster-env",
+      "ECSClusterSecGrps": "[]",
+      "VPCId": "vpc-0287059029960c111",
+      "ECSClusterName": "cdk-ecs-cluster-env",
+      "ECSClusterSDNamespace": "ecs-cdk-demo.dev"
+    }
+  },
+  "service": {
+    "name": "cdk-svc-demo",
+    "repository_connection_arn": "",
+    "repository_id": "",
+    "branch_name": ""
+  },
+  "service_instance": {
+    "name": "test",
+    "inputs": {
+      "port": 3000,
+      "desired_count": 1,
+      "task_size": "small",
+      "image": "12345678910.dkr.ecr.ap-northeast-1.amazonaws.com/service-sync-demo-pipeline-ecrrepoc36dc9e6-8e6qjsxk550f",
+      "imageTag": "latest",
+      "load_balanced": true,
+      "load_balanced_public": true,
+      "service_discovery_name": ""
+    }
+  }
+}

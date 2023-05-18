@@ -1,0 +1,103 @@
+{
+  "pipeline": {
+    "inputs": {
+      "dockerfile": "Dockerfile",
+      "unit_test_command": "echo \"HELLO TESTS11\""
+    }
+  },
+  "service": {
+    "name": "service-sync-ci-demo",
+    "repository_connection_arn": "arn:aws:codestar-connections:us-west-2:12345678910:connection/9f0b708b-f105-4ef5-808c-19282e81cc4c",
+    "repository_id": "adamjkeller/proton-service-sync-demo",
+    "branch_name": "main"
+  },
+  "service_instances": [
+    {
+      "name": "service-sync-demo-stg",
+      "inputs": {
+        "port": 8080,
+        "desired_count": 1,
+        "task_size": "small",
+        "image": "public.ecr.aws/aws-containers/proton-demo-image",
+        "imageTag": "latest",
+        "load_balanced": true,
+        "load_balanced_public": true
+      },
+      "outputs": {
+        "LBLBDNSNameB0A6BF64": "servi-LBECS-CRPX3MT4Z2W7-1352566398.us-west-2.elb.amazonaws.com",
+        "ServiceDiscoveryName": "service-sync-demo-stg-service-sync-ci-demo",
+        "ECSServiceDashboard": "https://us-west-2.console.aws.amazon.com/ecs/v2/clusters/cdk-ecs-cluster-env/services/service-sync-demo-stg-EcsFargateSvcService3F5C6629-62d8sBhNppNT/health?region=us-west-2"
+      },
+      "environment": {
+        "account_id": "12345678910",
+        "name": "cdk-ecs-cluster-env",
+        "outputs": {
+          "ECSClusterArn": "arn:aws:ecs:us-west-2:12345678910:cluster/cdk-ecs-cluster-env",
+          "ECSClusterSDNamespace": "ecs-cdk-demo.dev",
+          "SharedSecGrp": "sg-08be3cd143a5b87e0",
+          "ECSClusterSecGrps": "[]",
+          "VPCId": "vpc-0287059029960c111",
+          "ECSClusterName": "cdk-ecs-cluster-env"
+        }
+      }
+    },
+    {
+      "name": "service-sync-demo-prod",
+      "inputs": {
+        "port": 8080,
+        "desired_count": 1,
+        "task_size": "medium",
+        "image": "public.ecr.aws/aws-containers/proton-demo-image",
+        "imageTag": "latest",
+        "load_balanced": true,
+        "load_balanced_public": true
+      },
+      "outputs": {
+        "LBLBDNSNameB0A6BF64": "servi-LBECS-1JVFK4CT4AVGF-467529665.us-west-2.elb.amazonaws.com",
+        "ServiceDiscoveryName": "service-sync-demo-prod-service-sync-ci-demo",
+        "ECSServiceDashboard": "https://us-west-2.console.aws.amazon.com/ecs/v2/clusters/cdk-ecs-cluster-env/services/service-sync-demo-prod-EcsFargateSvcService3F5C6629-Dslx7YiwSh9o/health?region=us-west-2"
+      },
+      "environment": {
+        "account_id": "12345678910",
+        "name": "cdk-ecs-cluster-env",
+        "outputs": {
+          "ECSClusterArn": "arn:aws:ecs:us-west-2:12345678910:cluster/cdk-ecs-cluster-env",
+          "ECSClusterSDNamespace": "ecs-cdk-demo.dev",
+          "SharedSecGrp": "sg-08be3cd143a5b87e0",
+          "ECSClusterSecGrps": "[]",
+          "VPCId": "vpc-0287059029960c111",
+          "ECSClusterName": "cdk-ecs-cluster-env"
+        }
+      }
+    },
+    {
+      "name": "service-sync-demo-dev",
+      "inputs": {
+        "port": 8080,
+        "desired_count": 1,
+        "task_size": "small",
+        "image": "public.ecr.aws/aws-containers/proton-demo-image",
+        "imageTag": "latest",
+        "load_balanced": true,
+        "load_balanced_public": true
+      },
+      "outputs": {
+        "LBLBDNSNameB0A6BF64": "servi-LBECS-A8UMTR0NAMF0-169443705.us-west-2.elb.amazonaws.com",
+        "ServiceDiscoveryName": "service-sync-demo-dev-service-sync-ci-demo",
+        "ECSServiceDashboard": "https://us-west-2.console.aws.amazon.com/ecs/v2/clusters/cdk-ecs-cluster-env/services/service-sync-demo-dev-EcsFargateSvcService3F5C6629-XNeHFDh8r43a/health?region=us-west-2"
+      },
+      "environment": {
+        "account_id": "109876543210",
+        "name": "cdk-ecs-cluster-env",
+        "outputs": {
+          "ECSClusterArn": "arn:aws:ecs:us-west-2:109876543210:cluster/cdk-ecs-cluster-env",
+          "ECSClusterSDNamespace": "ecs-cdk-demo.dev",
+          "SharedSecGrp": "sg-08be3cd143a5b87e0",
+          "ECSClusterSecGrps": "[]",
+          "VPCId": "vpc-0287059029960c111",
+          "ECSClusterName": "cdk-ecs-cluster-env"
+        }
+      }
+    }
+  ]
+}
