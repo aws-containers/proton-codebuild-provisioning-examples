@@ -44,7 +44,7 @@ make template version=1 minor_version=0 bucket=<your-bucket-name>
 
 - Configure the service and select (or add) a repository for where your application code and Docker image reside.
 
-- If you are looking for an example repository to work with, check out and fork the [proton-service-sync-demo](https://github.com/adamjkeller/proton-service-sync-demo) repo.
+- If you are looking for an example repository and demo application to work with, fork the [wikipedia API search service](https://github.com/adamjkeller/wikipedia-api) repo.
 
 ![servicewsourcecode](./images/servicewsourcecode.png)
 
