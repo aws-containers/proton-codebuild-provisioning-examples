@@ -55,3 +55,10 @@ schema:
           type: string
           title: GitHub PAT Secret Name
           description: "Name of Secrets Manager Secret that stores the GitHub PAT"
+        docker_path:
+          title: "Docker Path"
+          description: "Docker build context is the set of files located in the specified PATH (Default is .)"
+          type: string
+          default: "."
+          minLength: 1
+          maxLength: 300

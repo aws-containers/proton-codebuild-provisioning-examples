@@ -26,7 +26,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-   - name: Assume AWS IAM Role
+    - name: Assume AWS IAM Role
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
         aws-region: ${region}
@@ -42,7 +42,7 @@ jobs:
         ECR_REGISTRY: $${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: $${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ${docker_path}
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
@@ -68,4 +68,3 @@ jobs:
           --name ${instance.name}
 
 %{ endfor ~}
-

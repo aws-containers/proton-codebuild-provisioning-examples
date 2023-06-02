@@ -1,11 +1,11 @@
 # required by proton
 
-# variable "pipeline" {
-#   description = "the proton pipeline"
-#   type = object({
-#     inputs = any
-#   })
-# }
+variable "pipeline" {
+  description = "the proton pipeline"
+  type = object({
+    inputs = any
+  })
+}
 
 variable "service" {
   description = "proton service"

@@ -28,4 +28,5 @@ module "cicd_pipeline" {
   proton_service_instances = var.service_instances
   repository_id            = var.service.repository_id
   branch_name              = var.service.branch_name
+  docker_path              = var.pipeline.inputs.docker_path
 }
