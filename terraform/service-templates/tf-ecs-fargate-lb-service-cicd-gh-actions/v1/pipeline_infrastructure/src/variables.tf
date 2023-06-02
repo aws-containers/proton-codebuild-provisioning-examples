@@ -29,3 +29,8 @@ variable "branch_name" {
   description = "the repo branch to deploy"
   type        = string
 }
+
+variable "docker_path" {
+  description = "Docker build context is the set of files located in the specified PATH"
+  type        = string
+}

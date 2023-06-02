@@ -85,7 +85,8 @@ resource "local_file" "workflow" {
     role                     = aws_iam_role.github_actions.arn,
     ecr_repo                 = aws_ecr_repository.main.name,
     branch_name              = var.branch_name,
-    proton_service           = var.proton_service
-    proton_service_instances = var.proton_service_instances
+    proton_service           = var.proton_service,
+    proton_service_instances = var.proton_service_instances,
+    docker_path              = var.docker_path,
   })
 }

@@ -33,6 +33,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_branch_name"></a> [branch\_name](#input\_branch\_name) | the repo branch to deploy | `string` | n/a | yes |
+| <a name="input_docker_path"></a> [docker\_path](#input\_docker\_path) | Docker build context is the set of files located in the specified PATH | `string` | n/a | yes |
 | <a name="input_proton_service"></a> [proton\_service](#input\_proton\_service) | the name of the proton service | `string` | n/a | yes |
 | <a name="input_proton_service_instances"></a> [proton\_service\_instances](#input\_proton\_service\_instances) | the service instances | <pre>list(<br>    object({<br>      name    = string<br>      inputs  = any<br>      outputs = any<br>      environment = object({<br>        account_id = string<br>        name       = string<br>        outputs    = any<br>      })<br>    })<br>  )</pre> | `null` | no |
 | <a name="input_repository_id"></a> [repository\_id](#input\_repository\_id) | the proton pipeline connected git repo | `string` | n/a | yes |
