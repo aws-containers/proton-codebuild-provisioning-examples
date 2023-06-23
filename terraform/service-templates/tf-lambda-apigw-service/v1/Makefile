@@ -18,10 +18,9 @@ template:
 	aws proton create-service-template \
 		--name ${template} \
 		--display-name ${description} \
-		--description ${description} \
-		--pipeline-provisioning CUSTOMER_MANAGED
+		--description ${description}
 
-	tar -zcvf ${key} schema instance_infrastructure
+	tar -zcvf ${key} schema instance_infrastructure pipeline_infrastructure
 	aws s3 cp ${key} s3://${bucket}/${key}
 	rm ${key}
 
@@ -36,3 +35,10 @@ template:
 
 	aws proton update-service-template-version \
 		--template-name ${template} --major-version ${version} --minor-version 0 --status PUBLISHED
+
+## delete: deletes proton template
+.PHONY: delete
+delete:
+	aws proton list-service-template-versions \
+		--template-name ${template} | jq '.templateVersions[] | {majorVersion, minorVersion}' | jq '"--major-version " + .majorVersion + " --minor-version " + .minorVersion' -r | xargs -n 4 aws proton delete-service-template-version --template-name ${template} $1
+	aws proton delete-service-template --name ${template}
