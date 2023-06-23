@@ -1,0 +1,66 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  service_input_type: service
+  types:
+    service:
+      type: object
+      description: Service input properties
+      properties:
+        lambda_handler:
+          title: "Lambda Handler"
+          description: "The function entrypoint in your code"
+          type: string
+          default: ""
+
+        lambda_runtime:
+          title: "Lambda runtime"
+          description: "The Lambda runtime"
+          type: string
+          enum:
+            [
+              "nodejs18.x",
+              "python3.10",
+              "ruby3.2",
+              "java17",
+              "go1.x",
+              "dotnet6",
+            ]
+          default: nodejs18.x
+
+        memory_size:
+          title: Lambda Memory
+          description: "Amount of memory in MB your Lambda Function can use at runtime. Defaults to 128."
+          type: number
+          default: 128
+
+        s3_bucket:
+          title: Lambda source code bucket
+          description: "The S3 bucket location containing the function's deployment package"
+          type: string
+          default: ""
+
+        s3_key:
+          title: Lambda source code key
+          description: "The S3 key of an object containing the function's deployment package"
+          type: string
+          default: ""
+
+        timeout:
+          title: Lambda Timeout
+          description: "The amount of time your Lambda Function has to run in seconds. Defaults to 3."
+          type: number
+          default: 3
+
+        vpc_access:
+          title: VPC Access
+          description: "Whether or not this lambda should be run in a VPC"
+          type: boolean
+          default: false
+
+        subnet_type:
+          title: "Subnet type"
+          description: "If VPC access is enabled, Which VPC set of subnets would you like to run your function in"
+          type: string
+          enum: ["public", "private"]
+          default: "private"
