@@ -2,6 +2,7 @@ schema:
   format:
     openapi: "3.0.0"
   service_input_type: service
+  pipeline_input_type: PipelineInputs
 
   types:
     service:
@@ -65,3 +66,26 @@ schema:
           type: string
           enum: ["public", "private"]
           default: "private"
+
+    PipelineInputs:
+      type: object
+      description: "Pipeline input properties"
+      properties:
+        code_dir:
+          type: string
+          description: "Source directory for the service"
+          default: "."
+          minLength: 1
+          maxLength: 100
+        unit_test_command:
+          type: string
+          description: "The command to run to unit test the application code"
+          default: "echo 'add your unit test command here'"
+          minLength: 1
+          maxLength: 200
+        packaging_command:
+          type: string
+          description: "The commands which packages your code into a file called function.zip"
+          default: "zip function.zip app.js"
+          minLength: 1
+          maxLength: 200

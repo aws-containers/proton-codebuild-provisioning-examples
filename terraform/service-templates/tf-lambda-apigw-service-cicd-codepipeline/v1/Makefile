@@ -1,7 +1,7 @@
-template := tf-lambda-apigw-service
+template := tf-lambda-apigw-service-cicd-codepipeline
 key := proton-service-template.tar.gz
-display := "Lambda Web Service"
-description := "Lambda API Gateway HTTP API"
+display := "Lambda Web Service with CodePipeline"
+description := "Lambda API Gateway HTTP API with a CodePipeline CI/CD Pipeline"
 
 all: help
 
@@ -19,10 +19,9 @@ template:
 	aws proton create-service-template \
 		--name ${template} \
 		--display-name ${display} \
-		--description ${description} \
-		--pipeline-provisioning CUSTOMER_MANAGED
+		--description ${description}
 
-	tar -zcvf ${key} schema instance_infrastructure
+	tar -zcvf ${key} schema instance_infrastructure pipeline_infrastructure
 	aws s3 cp ${key} s3://${bucket}/${key}
 	rm ${key}
 
