@@ -18,7 +18,7 @@ repos:
           - "--args=--lockfile=false"
       - id: terraform_tflint
         # ignore until `pipeline_endpoint` is supported
-        exclude: ./service-templates/tf-ecs-fargate-lb-service-cicd-codepipeline/v1/pipeline_infrastructure/
+        exclude: ./service-templates/tf-lambda-apigw-service-cicd-codepipeline/v1/pipeline_infrastructure/
         args:
           - "--args=--only=terraform_deprecated_interpolation"
           - "--args=--only=terraform_deprecated_index"
