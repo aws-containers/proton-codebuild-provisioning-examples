@@ -6,7 +6,7 @@ This is a Terraform module that is provisioned by AWS Proton.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
 ## Providers
 
@@ -36,6 +36,7 @@ No resources.
 |------|-------------|
 | <a name="output_cluster_arn"></a> [cluster\_arn](#output\_cluster\_arn) | cluster arn |
 | <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | cluster name |
+| <a name="output_default_security_group_id"></a> [default\_security\_group\_id](#output\_default\_security\_group\_id) | Default security group for VPC |
 | <a name="output_private_subnet_one_id"></a> [private\_subnet\_one\_id](#output\_private\_subnet\_one\_id) | private subnet one |
 | <a name="output_private_subnet_two_id"></a> [private\_subnet\_two\_id](#output\_private\_subnet\_two\_id) | private subnet two |
 | <a name="output_public_subnet_one_id"></a> [public\_subnet\_one\_id](#output\_public\_subnet\_one\_id) | public subnet one |

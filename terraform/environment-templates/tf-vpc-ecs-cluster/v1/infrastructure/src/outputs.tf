@@ -37,3 +37,8 @@ output "private_subnet_two_id" {
   description = "private subnet two"
   value       = module.vpc.private_subnets[1]
 }
+
+output "default_security_group_id" {
+  description = "Default security group for VPC"
+  value       = module.vpc.default_security_group_id
+}

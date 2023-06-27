@@ -38,6 +38,11 @@ output "private_subnet_two_id" {
   value       = module.fargate_env.private_subnet_two_id
 }
 
+output "default_security_group_id" {
+  description = "Default security group for VPC"
+  value       = module.fargate_env.default_security_group_id
+}
+
 output "tf_state_bucket" {
   description = "Terraform state bucket name"
   value       = var.tf_state_bucket
