@@ -33,7 +33,7 @@ module "cicd_pipeline" {
   repository_id             = var.service.repository_id
   branch_name               = var.service.branch_name
 
-  # generated pipeline should only deploy to nstances specified by user
+  # generated pipeline should only deploy to instances specified by user
   service_instances = tolist([for i in var.service_instances : i
   if contains(var.pipeline.inputs.instances_to_deploy, i.name)])
 
