@@ -10,7 +10,7 @@ The idea with this template is that once you deploy it, it will setup a CodePipe
 
 - build your code into a container image (requires a Dockerfile)
 - push your image to ECR
-- update your Proton service to deploy the image to the ECS service
+- optionally deploy the new image to whichever service instances you've configured
 
 This template is compatible with the [tf-vpc-ecs-cluster](../../environment-templates/tf-vpc-ecs-cluster) template.
 
@@ -28,6 +28,12 @@ make template bucket=my-bucket version=1
 
 ![input](./input.png)
 ![pipeline](./pipeline.png)
+
+### Demo
+
+Here's a quick demo of what this looks like.
+
+![gif](./input.gif)
 
 
 ## Security
