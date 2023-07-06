@@ -27,6 +27,7 @@ make template bucket=my-bucket version=1
 ### Input Parameters
 
 ![input](./input.png)
+![pipeline](./pipeline.png)
 
 
 ## Security

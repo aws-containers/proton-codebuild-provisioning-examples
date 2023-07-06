@@ -51,20 +51,29 @@ schema:
       type: object
       description: "Pipeline input properties"
       properties:
+        instances_to_deploy:
+          type: array
+          items:
+            type: string
+          title: Instances to deploy
+          description: Which instances would you like to continuously deploy to
         service_dir:
           type: string
+          title: "Source directory for the service"
           description: "Source directory for the service"
           default: "."
           minLength: 1
           maxLength: 100
         dockerfile:
           type: string
+          title: "Dockerfile location"
           description: "The location of the Dockerfile to build"
           default: "Dockerfile"
           minLength: 1
           maxLength: 100
         unit_test_command:
           type: string
+          title: "Unit test command"
           description: "The command to run to unit test the application code"
           default: "echo 'add your unit test command here'"
           minLength: 1
